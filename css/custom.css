@@ -1,0 +1,126 @@
+.no-marginBanner{
+	margin:-2px;
+}
+
+.no-paddingBanner{
+	padding:1px;
+}
+
+/*.navbar-inverse{
+	background-color:#000;
+	border-color:#ffffff;
+	color:#FFFFFF;
+} */
+
+.notice{
+	height:auto;
+	margin:0px;
+	padding:5px;
+	border-radius:5px;
+}
+
+.notice1{
+	margin:0px;
+	padding:0px;
+	width:100%;
+}
+
+.myFooter{
+	background-color:#444444;
+	margin-top: 15px;
+}
+
+.myFooterOther{
+	margin-top:8px;
+}
+
+.eventHead{
+	margin-top:8px;
+}
+
+.nested_grid{
+	margin-top:8px;
+}
+
+
+.side-menu h4, .head-title {
+	background-color:#5C4283;
+	color:#FFFFFF;
+	padding: 8px 5px;
+	text-align:center;
+}
+
+.controlList ul{
+	padding-left: 0px;
+}
+.controlList ul li{
+	padding: 5px 7px;
+	list-style:none;
+	background-color:#5C4283;
+	border-bottom: 1px solid;
+	border-bottom-color: rgba(0,0,0,0.3);
+}
+.controlList ul li a{
+	text-decoration:none;
+	color:white;
+	font-size:17px;
+}
+
+.controlList ul li:hover a{
+	opacity: .5;
+}
+
+.bottom-footer{
+	background-color: black;
+	color:#5C4283;
+	padding:8px;
+}
+
+.footerList ul {
+	padding-left:30px;
+}
+.footerList ul li{
+	list-style:none;
+	margin-left:0px;
+}
+
+.footerList ul li a{
+	color:#FFFFFF;
+}
+
+.welcome_bsc{
+	text-align:justify;background-color:#FFFFFF;padding:8px;margin-top:10px;border:2px solid #E5E5E5;
+}
+
+.teacherTable tr{
+	margin-top:5px;
+}
+
+.teacherTable tr td{
+	padding-top:5px;
+}
+
+.teacherTable tr td input{
+	width:300px;
+}
+
+.min-body{
+	min-height: 300px;
+}
+
+
+
+	.sidebar-nav .navbar ul {
+		float: none;
+		display: block;
+	}
+	.sidebar-nav .navbar li {
+		float: none;
+		display: block;
+	}
+	.sidebar-nav .navbar li a {
+		padding-top: 12px;
+		padding-bottom: 12px;
+	}
+
+
