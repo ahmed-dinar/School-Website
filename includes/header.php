@@ -1,4 +1,13 @@
-<?php $active_nav = isset($active_nav) ? $active_nav : ""; ?>
+<?php
+/**
+ *  Author: Ahmed-Dinar
+ *  Created: 29/05/2017
+ */
+
+//for active nav in navigation bar
+$active_nav = isset($active_nav) ? $active_nav : "";
+?>
+
 
 <!----------  Banner ------>
 <div class="container">

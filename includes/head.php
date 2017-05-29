@@ -1,3 +1,9 @@
+<?php
+/**
+ *  Author: Ahmed-Dinar
+ *  Created: 29/05/2017
+ */
+?>
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +13,8 @@
 <title><?php echo $page_title; ?></title>
 
 <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"/>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">

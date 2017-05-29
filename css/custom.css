@@ -110,17 +110,66 @@
 
 
 
-	.sidebar-nav .navbar ul {
-		float: none;
-		display: block;
-	}
-	.sidebar-nav .navbar li {
-		float: none;
-		display: block;
-	}
-	.sidebar-nav .navbar li a {
-		padding-top: 12px;
-		padding-bottom: 12px;
-	}
+.sidebar-nav .navbar ul {
+	float: none;
+	display: block;
+}
+.sidebar-nav .navbar li {
+	float: none;
+	display: block;
+}
+.sidebar-nav .navbar li a {
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
 
 
+.form-control{
+	border: 1px solid #bfbfbf;
+	border-radius: 2px !important;
+}
+
+.form-control:focus{
+	border: 1px solid #4098CF;
+	box-shadow: none !important;
+}
+
+form input.error{
+	border: 1px solid #a94442 !important;
+}
+
+form label.error{
+	color: #a94442 !important;
+	font-weight: normal !important;
+}
+
+form sup{
+	color: red;
+	font-weight: bold;
+	font-size: 15px;
+	top: -1px;
+}
+
+
+.input-icon{
+	position: relative;
+}
+
+.input-icon .fa{
+	position: absolute;
+	padding: 10px;
+	width: 32px;
+	pointer-events: none;
+	border-right: 1px solid #d6d6d6;
+}
+
+.input-icon input{
+	padding-left: 40px;
+	font-size: 15px;
+}
+
+.form-center{
+	margin: 0px auto;
+	margin-top: 37px;
+	width: 352px;
+}
