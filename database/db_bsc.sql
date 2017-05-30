@@ -78,6 +78,10 @@ CREATE TABLE IF NOT EXISTS `alumnai` (
   `phone` varchar(20) NOT NULL,
   `img` varchar(11) NOT NULL,
   `fb_link` varchar(256) NOT NULL,
+  `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `token` varchar(32) NOT NULL,
+  `tokenExpire` TIMESTAMP NOT NULL,
+  `status` TINYINT(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 

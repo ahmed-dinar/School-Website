@@ -4,21 +4,28 @@
  *  Created: 29/05/2017
  */
 
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
+error_reporting(E_ALL);
 
 //start our session if not already started
 if (!session_id()) {
     session_start();
 }
 
+include('database/connect.php');
+
 //load config file
 $config = require ('config/config.php');
 
-require 'includes/FlashMessages.php';
-$msg = new \Plasticbrain\FlashMessages\FlashMessages();
+require_once 'libs/SendMail.php';
+
+require 'libs/FlashMessages.php';
+$flashMsg = new \Plasticbrain\FlashMessages\FlashMessages();
 
 //form validator
-require 'includes/gump.class.php';
+require_once 'libs/gump/gump.class.php';
+
+//form database validation
+require_once 'libs/VALIDATE.php';
 
 
 //set csrf token
@@ -29,6 +36,8 @@ if (!isset($_SESSION['csrf_token'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    $errorRedirect = "alumni_resistration.php";
+
     //if csrf token does not match, there something wrong, may be security issue
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         echo "Invalid request";
@@ -36,15 +45,109 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     //if captcha not found in form, flash error and redirect
-    if( !isset($_POST['g-recaptcha-response']) ) {
-        $msg->error("captcha error", "alumni_resistration.php");
+    /*if( !isset($_POST['g-recaptcha-response']) ) {
+        $flashMsg->error("captcha error", $errorRedirect);
     }
 
-    if( validateCaptcha($_POST["g-recaptcha-response"]) ) {
-        $msg->error("captcha does not match", "alumni_resistration.php");
-    }
+    if( VALIDATE::captcha($_POST["g-recaptcha-response"]) ) {
+        $flashMsg->error("captcha does not match", $errorRedirect);
+    }*/
 
     $validator = new GUMP();
+    $validated_data = validateForm($validator);
+    if(!$validated_data) {
+        $errHtml = "";
+        foreach ($validator->get_readable_errors() as $readable_error) {
+            $errHtml .= $readable_error."<br>";
+        }
+        $flashMsg->error($errHtml, $errorRedirect);
+    }
+
+    $emailAddr = $validated_data["email"];
+    if( !VALIDATE::email($emailAddr, $db) ){
+        $flashMsg->error("$emailAddr already taken", $errorRedirect);
+    }
+
+    $profileImg = VALIDATE::file("profileImg");
+    if( array_key_exists("error", $profileImg) ){
+        switch ($profileImg["type"]){
+            case "404":
+                $flashMsg->error("profile image is required", $errorRedirect);
+            case "ext":
+                $flashMsg->error("only jpg, jpeg & png files are allowed", $errorRedirect);
+            case "size":
+                $flashMsg->error("image file should be less than 1MB", $errorRedirect);
+            default:
+                $flashMsg->error("error while processing request", $errorRedirect);
+        }
+    }
+
+    $validated_data["created"]  = date("Y-m-d H:i:s");
+    $validated_data["tokenExpire"] = date("Y-m-d H:i:s", strtotime($validated_data["created"]) + (48 * 3600)); //48 hour
+    $validated_data["token"] = bin2hex(openssl_random_pseudo_bytes(16));
+
+    $alumniId = saveAlumni($validated_data,$db);
+    if( !$alumniId ){
+        $flashMsg->error("error while processing request", $errorRedirect);
+    }
+
+    if( !saveProfileImg($alumniId,$profileImg["ext"],$db) ){
+        $flashMsg->error("error while processing request", $errorRedirect);
+    }
+
+    $confirmToken = $validated_data["token"];
+    $verifyLink = "http://localhost/school/verify?token=".$confirmToken;
+    $mailBody = 'Hello,'.$validated_data['name'].'<br><br>Please Follow the link to verify your email within 48 hours.<br><br>' .'<a href="'.$verifyLink.'">'.$verifyLink.'</a><br><br>Thank you,<br>Basundia School & College';
+
+    $mail = new SendMail($emailAddr,'Alumni mail verification', 'BasundiaSC');
+    $mail->setBody($mailBody);
+
+    if( !$mail->send() ){
+       // echo $mail->getError();
+        $flashMsg->error("error while processing request", $errorRedirect);
+    }
+
+    $successMsg = "Successfully registered.<br>An email has been sent to $emailAddr. Please check the mail and follow instructions to complete registration.";
+    $flashMsg->success($successMsg, "alumni.php");
+}
+
+
+/**
+ * Move profile image to web dir and insert img name in db
+ * @param $alumniId
+ * @param $extn
+ * @param $db
+ * @return mixed
+ */
+function saveProfileImg($alumniId, $extn, $db){
+
+    $moveImgName = $alumniId.".".$extn;
+
+    if( !is_writable('img_alumni') ){
+        //echo "img_alumni has not write permission!<br>";
+        return false;
+    }
+
+    if( !move_uploaded_file($_FILES['profileImg']['tmp_name'], 'img_alumni/'.$moveImgName) ){
+        return false;
+    }
+
+    $_query = $db->prepare("UPDATE `alumnai` SET `img` = :img WHERE `id` = :id");
+    $_query->bindValue(':img', $moveImgName);
+    $_query->bindValue(':id', $alumniId);
+
+    return $_query->execute();
+}
+
+
+
+/**
+ *  Validate alumni form
+ * @param $validator
+ * @return array
+ */
+function validateForm($validator){
+
     $_POST = $validator->sanitize($_POST);
 
     $validator->validation_rules(array(
@@ -69,49 +172,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'group' => 'trim|sanitize_string',
     ));
 
-    $validated_data = $validator->run($_POST);
-
-    if(!$validated_data) {
-        $errHtml = "";
-        foreach ($validator->get_readable_errors() as $readable_error) {
-            $errHtml .= $readable_error."<br>";
-        }
-        $msg->error($errHtml, "alumni_resistration.php");
-    } else {
-        foreach ($validated_data as $vdata) {
-            echo $vdata."<br>";
-        }
-    }
-
-
-    // header('Location: alumni_resistration.php', true, 302);
-    // exit();
+    return $validator->run($_POST);
 }
-
 
 
 /**
- * Validate recaptcha
- * @param $captchaResponse
+ * Save alumni into database
+ * @param $validated_data
+ * @return bool
  */
-function validateCaptcha($captchaResponse) {
-    global $config;
-    $data = array(
-        'secret' => $config->recaptcha->secret,
-        'response' => $captchaResponse
-    );
-    $options = array(
-        'http' => array(
-            'method' => 'POST',
-            'content' => http_build_query($data)
-        )
-    );
-    $context = stream_context_create($options);
-    $verify = file_get_contents($config->recaptcha->url, false, $context);
-    $captcha_success = json_decode($verify);
+function saveAlumni($validated_data, $db){
 
-    return $captcha_success->success;
+    var_dump($validated_data);
+
+    $_query = $db->prepare("INSERT INTO `alumnai` (`name`, `passing_year`, `present_address`, `parmanent_address`, `current_status`, `group`, `current_org`, `email`, `phone`, `created`, `token`, `tokenExpire`) VALUES (:name, :passing_year, :present_address, :parmanent_address, :current_status, :group, :current_org, :email, :phone, :created, :token, :tokenExpire) ");
+    $_query->bindValue(':name', $validated_data["name"]);
+    $_query->bindValue(':passing_year', $validated_data["passingYear"]);
+    $_query->bindValue(':present_address', $validated_data["presentAddress"]);
+    $_query->bindValue(':parmanent_address', $validated_data["permanentAddress"]);
+    $_query->bindValue(':current_status', $validated_data["currentStatus"]);
+    $_query->bindValue(':group', $validated_data["group"]);
+    $_query->bindValue(':current_org', $validated_data["currentOrg"]);
+    $_query->bindValue(':email', $validated_data["email"]);
+    $_query->bindValue(':phone', $validated_data["phone"]);
+    $_query->bindValue(':created', $validated_data["created"]);
+    $_query->bindValue(':token', $validated_data["token"]);
+    $_query->bindValue(':tokenExpire', $validated_data["tokenExpire"]);
+
+    if( !$_query->execute() ) return false;
+
+    return $db->lastInsertId();
 }
+
 
 ?>
 
@@ -121,7 +213,7 @@ function validateCaptcha($captchaResponse) {
 <head>
     <?php $active_nav="alumni"; $page_title = "Alumni Members"; include 'includes/head.php' ?>
     <script src="js/jquery.validate.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+   <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
 </head>
 <body>
 
@@ -138,10 +230,14 @@ function validateCaptcha($captchaResponse) {
             <h4 class="head-title" style="margin-bottom: 20px;">Resister for alumni</h4>
 
             <?php
-            //show flash messages
-            if ($msg->hasErrors()) {
-                $msg->display();
-            }
+                //show flash messages
+                if ($flashMsg->hasErrors()) {
+                    $flashMsg->display();
+                }
+
+                if ($flashMsg->hasMessages($flashMsg::SUCCESS)) {
+                    $flashMsg->display();
+                }
             ?>
 
             <div class="col-md-7">
@@ -197,7 +293,7 @@ function validateCaptcha($captchaResponse) {
                         <input type="file" name="profileImg" id="profileImg" />
                     </div>
                     <div class="form-group">
-                        <div class="g-recaptcha" data-sitekey="<?php echo $config->recaptcha->public; ?>"></div>
+                        <!--<div class="g-recaptcha" data-sitekey="<?php echo $config->recaptcha->public; ?>"></div> -->
                     </div>
 
                     <input type="hidden" value="<?php echo $_SESSION['csrf_token']; ?>" id="csrf_token" name="csrf_token" />
@@ -214,7 +310,7 @@ function validateCaptcha($captchaResponse) {
 <script>
 
     //validate from in front end
-    $("#ressForm").validate({
+    $("#resForm").validate({
         rules: {
             name: {
                 required: true,

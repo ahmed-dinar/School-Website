@@ -3,6 +3,22 @@
  *  Author: Ahmed-Dinar
  *  Created: 29/05/2017
  */
+
+error_reporting(E_ALL);
+
+//start our session if not already started
+if (!session_id()) {
+    session_start();
+}
+
+include('database/connect.php');
+
+//load config file
+$config = require ('config/config.php');
+
+require 'libs/FlashMessages.php';
+$flashMsg = new \Plasticbrain\FlashMessages\FlashMessages();
+
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +38,18 @@
         </div>
 
         <div class="col-md-9">
+            <div class="panel-body">
+            <?php
+                //show flash messages
+                if ($flashMsg->hasErrors()) {
+                    $flashMsg->display();
+                }
+
+                if ($flashMsg->hasMessages($flashMsg::SUCCESS)) {
+                    $flashMsg->display();
+                }
+            ?>
+            </div>
         </div>
 
     </div>

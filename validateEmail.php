@@ -8,25 +8,18 @@
  *  TODO: maybe add an option to check if ajax, or die. Possible? Also already added csrf, why not use it?
  */
 
-include('database/connect.php');
+require_once 'database/connect.php';
+require_once 'includes/VALIDATE.php';
 
 if( isset($_POST['email']) ) {
 
     $email = $_POST['email'];
-    $_query = $db->prepare('SELECT * FROM alumnai WHERE email = ? LIMIT 1');
 
-    if( $_query->execute([$email]) ){
-        $_count = $_query->rowCount();
-        if( !$_count ){
-            echo "true";
-        }
-        else{
-            echo "false";
-        }
-    }
-    else{
+    if( !VALIDATE::email($email, $db) )
         echo "false";
-    }
+    else
+        echo "true";
+
 }else{
     echo "false";
 }
