@@ -25,6 +25,7 @@ $flashMsg = new \Plasticbrain\FlashMessages\FlashMessages();
 <html lang="en">
 <head>
     <?php $active_nav="alumni"; $page_title = "Alumni Members"; include 'includes/head.php' ?>
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -34,7 +35,7 @@ $flashMsg = new \Plasticbrain\FlashMessages\FlashMessages();
     <div class="row">
 
         <div class="col-md-2">
-            <?php include "includes/alumni_side_menu.php"; ?>
+            <?php $alumniActive=""; include "includes/alumni_side_menu.php"; ?>
         </div>
 
         <div class="col-md-9">

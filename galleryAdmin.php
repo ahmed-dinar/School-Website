@@ -9,7 +9,7 @@ if (!session_id()) {
 
 include('database/connect.php');
 
-require 'includes/FlashMessages.php';
+require 'libs/FlashMessages.php';
 $msg = new \Plasticbrain\FlashMessages\FlashMessages();
 
 if(isset($_REQUEST['id'])){
@@ -68,7 +68,7 @@ if(isset($_POST['submitImg'])){
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            <?php include 'includes/admin_side_menu.php' ?>
+            <?php $adminNav='gallery'; include 'includes/admin_side_menu.php' ?>
         </div>
         <div class="col-md-10">
             <h4 class="head-title">Add New Image To The Gallery</h4>

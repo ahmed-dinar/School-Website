@@ -3,7 +3,7 @@
  * Author: ahmed-dinar
  * Date: 5/31/17
 */
-date_default_timezone_set('Etc/UTC');
+date_default_timezone_set('Asia/Dhaka');
 
 require 'PHPMailer/PHPMailerAutoload.php';
 

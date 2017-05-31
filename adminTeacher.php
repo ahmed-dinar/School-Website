@@ -429,7 +429,7 @@ if(isset($_POST['update_stuff'])){
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            <?php include 'includes/admin_side_menu.php' ?>
+            <?php $adminNav='tas'; include 'includes/admin_side_menu.php' ?>
         </div>
         <!-------------Adding Teacher------------->
         <div class="col-md-5">

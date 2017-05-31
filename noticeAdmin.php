@@ -79,7 +79,7 @@ if(isset($_POST['submitEvent'])){
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            <?php include 'includes/admin_side_menu.php' ?>
+            <?php $adminNav='notice'; include 'includes/admin_side_menu.php' ?>
         </div>
         <div class="col-md-5">
             <h4 class="head-title">Add New Notice</h4>

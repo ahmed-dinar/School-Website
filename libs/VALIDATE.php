@@ -26,6 +26,26 @@ class VALIDATE
 
 
     /**
+     *
+     * @param $name
+     * @param $value
+     * @param $db
+     * @param string $tbl
+     * @return bool
+     */
+    public static function exists($name, $value, $db, $tbl = 'alumnai'){
+
+        $statement = "SELECT `id` FROM $tbl WHERE $name = ? LIMIT 1";
+        $_query = $db->prepare($statement);
+        if( $_query->execute([$value]) )
+            return $_query->rowCount() == 0 ? false : true;
+
+        return false;
+    }
+
+
+
+    /**
      * Check if captcha valid
      * @param $captchaResponse
      * @return mixed

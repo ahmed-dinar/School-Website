@@ -82,8 +82,25 @@ CREATE TABLE IF NOT EXISTS `alumnai` (
   `token` varchar(32) NOT NULL,
   `tokenExpire` TIMESTAMP NOT NULL,
   `status` TINYINT(1) NOT NULL DEFAULT '0',
+  `password` varchar(64) NOT NULL,
+  `salt` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+
+CREATE TABLE IF NOT EXISTS `admin` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `salt` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+
+INSERT INTO `admin` (`username`, `password`,`salt`) VALUES
+  ('admin', 'b90186d1a27cc09ef40c21cec20a3b5f737c936a8170cf712394c2448edcc093', 'ä2kvR•íñÃôµîÞR÷¤XñÎ1fÝõÙi%');
+
 
 -- --------------------------------------------------------
 

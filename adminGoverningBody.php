@@ -250,7 +250,7 @@ if(isset($_POST['update_gvt'])){
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            <?php include 'includes/admin_side_menu.php' ?>
+            <?php $adminNav='gov'; include 'includes/admin_side_menu.php' ?>
         </div>
 
         <div class="col-md-5">

@@ -157,7 +157,7 @@ function validateForm($validator){
         'currentOrg' => 'max_len,50',
         'presentAddress' => 'required|max_len,80',
         'permanentAddress' => 'required|max_len,80',
-        'currentStatus' => 'max_len,30',
+        'currentStatus' => 'required|max_len,30',
         'phone' => 'numeric|max_len,20',
         'group' => 'required'
     ));
@@ -223,7 +223,7 @@ function saveAlumni($validated_data, $db){
     <div class="row">
 
         <div class="col-md-2">
-            <?php include "includes/alumni_side_menu.php"; ?>
+            <?php $alumniActive="reg"; include "includes/alumni_side_menu.php"; ?>
         </div>
 
         <div class="col-md-10">
@@ -252,7 +252,7 @@ function saveAlumni($validated_data, $db){
                         <input type="email" name="email" class="form-control" id="inputEmail1" placeholder="Email">
                     </div>
                     <div class="form-group">
-                        <label for="passingYear">Passing Year<sup>*</sup></label>
+                        <label for="passingYear">Passing Year / Batch<sup>*</sup></label>
                         <input type="text" name="passingYear" class="form-control" id="passingYear" placeholder="YYYY" >
                     </div>
                     <div class="form-group">
@@ -265,11 +265,11 @@ function saveAlumni($validated_data, $db){
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="currentStatus">Current Position</label>
+                        <label for="currentStatus">Present Occupation with Designation<sup>*</sup></label>
                         <input type="text" name="currentStatus" class="form-control" id="currentStatus" placeholder="" >
                     </div>
                     <div class="form-group">
-                        <label for="currentOrg">Current Organization</label>
+                        <label for="currentOrg">Organization</label>
                         <input type="text" name="currentOrg" class="form-control" id="currentOrg" placeholder="Working place/organization" >
                     </div>
                     <div class="form-group">
@@ -350,7 +350,7 @@ function saveAlumni($validated_data, $db){
                 maxlength: 80
             },
             currentStatus: {
-                required: false,
+                required: true,
                 maxlength: 30
             },
             phone: {

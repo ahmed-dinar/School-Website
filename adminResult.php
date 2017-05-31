@@ -116,7 +116,7 @@ if(isset($_POST['r_submit'])){
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            <?php include 'includes/admin_side_menu.php' ?>
+            <?php $adminNav='result'; include 'includes/admin_side_menu.php' ?>
         </div>
         <div class="col-md-5">
 

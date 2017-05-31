@@ -58,7 +58,7 @@
 	list-style:none;
 	background-color:#5C4283;
 	border-bottom: 1px solid;
-	border-bottom-color: rgba(0,0,0,0.3);
+	border-bottom-color: rgba(0,0,0,0.2);
 }
 .controlList ul li a{
 	text-decoration:none;
@@ -172,4 +172,38 @@ form sup{
 	margin: 0px auto;
 	margin-top: 37px;
 	width: 352px;
+}
+
+.text-bold{
+	font-weight: bold;
+}
+
+.alumni-table tbody tr td{
+	vertical-align: middle !important;
+}
+
+.alert .fa{
+	font-size: 16px !important;
+}
+
+.alert{
+	text-align: center !important;
+	font-weight: bold !important;
+}
+
+.admin-side-menu .active{
+	background-color: #473366;
+}
+
+.public-alumni-table{
+	vertical-align: middle !important;
+}
+
+.public-alumni-table p{
+	margin: 0;
+}
+
+.public-alumni-table td{
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
 }
