@@ -123,14 +123,19 @@ function saveProfileImg($alumniId, $extn, $db){
 
     $moveImgName = $alumniId.".".$extn;
 
+    //check if the photo has write permission
     if( !is_writable('img_alumni') ){
         //echo "img_alumni has not write permission!<br>";
         return false;
     }
 
-    if( !move_uploaded_file($_FILES['profileImg']['tmp_name'], 'img_alumni/'.$moveImgName) ){
+    //remove the previous same named image
+    if(file_exists('img_alumni/'.$moveImgName))
+        unlink('img_alumni/'.$moveImgName);
+
+    // move photo to image dir
+    if( !move_uploaded_file($_FILES['profileImg']['tmp_name'], 'img_alumni/'.$moveImgName) )
         return false;
-    }
 
     $_query = $db->prepare("UPDATE `alumnai` SET `img` = :img WHERE `id` = :id");
     $_query->bindValue(':img', $moveImgName);
@@ -183,8 +188,6 @@ function validateForm($validator){
  */
 function saveAlumni($validated_data, $db){
 
-    var_dump($validated_data);
-
     $_query = $db->prepare("INSERT INTO `alumnai` (`name`, `passing_year`, `present_address`, `parmanent_address`, `current_status`, `group`, `current_org`, `email`, `phone`, `created`, `token`, `tokenExpire`) VALUES (:name, :passing_year, :present_address, :parmanent_address, :current_status, :group, :current_org, :email, :phone, :created, :token, :tokenExpire) ");
     $_query->bindValue(':name', $validated_data["name"]);
     $_query->bindValue(':passing_year', $validated_data["passingYear"]);
@@ -212,7 +215,6 @@ function saveAlumni($validated_data, $db){
 <html lang="en">
 <head>
     <?php $active_nav="alumni"; $page_title = "Alumni Members"; include 'includes/head.php' ?>
-    <script src="js/jquery.validate.min.js"></script>
    <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
 </head>
 <body>
@@ -242,7 +244,7 @@ function saveAlumni($validated_data, $db){
 
             <div class="col-md-7">
 
-                <form action="alumni_resistration.php" method="post" id="resForm" enctype="multipart/form-data">
+                <form action="alumni_resistration.php" method="post" id="alumniForm" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="inputName">Full name<sup>*</sup></label>
                         <input type="text" name="name" class="form-control" id="inputName" placeholder="Name" >
@@ -259,9 +261,9 @@ function saveAlumni($validated_data, $db){
                         <label for="group">Group<sup>*</sup></label>
                         <select id="group" class="form-control" name="group">
                             <option value="">Select group</option>
-                            <option value="sc">Science</option>
-                            <option value="hum">Humanities</option>
-                            <option value="com">Commerce</option>
+                            <option value="Science">Science</option>
+                            <option value="Humanities">Humanities</option>
+                            <option value="Commerce">Commerce</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -307,97 +309,11 @@ function saveAlumni($validated_data, $db){
     </div>
 </div>
 
-<script>
 
-    //validate from in front end
-    $("#resForm").validate({
-        rules: {
-            name: {
-                required: true,
-                rangelength: [3,100]
-            },
-            email: {
-                required: true,
-                email: true,
-                remote: {
-                    url: "validateEmail.php",
-                    type: "post",
-                    data: {
-                        email: function() {
-                            return $( "#inputEmail1" ).val();
-                        },
-                        csrf: function () {
-                            return $( "#csrf_token" ).val();
-                        }
-                    }
-                }
-            },
-            passingYear: {
-                required: true,
-                number: true,
-                rangelength: [4, 4]
-            },
-            currentOrg: {
-                required: false,
-                maxlength: 50
-            },
-            presentAddress: {
-                required: true,
-                maxlength: 80
-            },
-            permanentAddress: {
-                required: true,
-                maxlength: 80
-            },
-            currentStatus: {
-                required: true,
-                maxlength: 30
-            },
-            phone: {
-                required: true,
-                number: true,
-                maxlength: 20
-            },
-            group: {
-                required: true
-            },
-            // password: {},
-            profileImg: {
-                required: true,
-                accept: "image/jpg,image/jpeg,image/png,image/gif",
-                filesize: 1048576
-            }
-        },
-        messages: {
-            name:{
-                rangelength: "Name must be between 3 and 100 characters long."
-            },
-            email: {
-                required: "Please enter your email address.",
-                email: "Please enter a valid email address.",
-                remote: jQuery.validator.format("{0} is already taken.")
-            },
-            profileImg: {
-                required: 'Image is required',
-                accept: "File must be JPEG or PNG, less than 1MB",
-                filesize: "File must be JPEG or PNG, less than 1MB"
-            },
-            passingYear: {
-                number: "Please enter a valid year",
-                rangelength: "Please enter a valid year"
-            },
-            phone: {
-                number: "Please enter a valid phone number"
-            }
-        }
-    });
-
-</script>
-
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/alumni_form_validate.js"></script>
 <script src="js/bootstrap.min.js"></script>
 
 <?php include 'includes/footer.php'  ?>
-
-
 
 </body>

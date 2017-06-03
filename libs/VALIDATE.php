@@ -103,4 +103,34 @@ class VALIDATE
         return array("ext" => $file_extension);
     }
 
+
+    /**
+     * @param $formField
+     * @param array $allowedExts
+     * @return array
+     */
+    public static function academicFile($formField, $allowedExts = array("jpg","jpeg","png","pdf") ){
+
+        if(empty($_FILES)) {
+            return array("type" => "empty", "error" => "no file");
+        }
+
+        $uploaded_file = $_FILES[$formField];
+
+        if (!isset($uploaded_file['error']) || is_array($uploaded_file['error']) ) {
+            return array("type" => "param", "error" => "invalid parameters");
+        }
+
+        if(!file_exists($uploaded_file['tmp_name']) || !is_uploaded_file($uploaded_file['tmp_name'])){
+            return array("type" => "404", "error" => "please select file");
+        }
+
+        $file_extension = substr($uploaded_file['name'], strripos($uploaded_file['name'], '.')+1);
+        if (!in_array($file_extension, $allowedExts)) {
+            return array("type" => "ext", "error" => "please select a valid file");
+        }
+
+        return array("ext" => $file_extension);
+    }
+
 }

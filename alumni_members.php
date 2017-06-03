@@ -87,8 +87,15 @@ $alumniList = $_query->fetchAll(PDO::FETCH_OBJ);
                                 <p><a href="alumniProfile.php?id=<?php echo $almn->id; ?>" style="color: #0f0f0f" class="text-bold" ><?php echo $almn->name; ?></a></p>
                                 <p><?php echo $almn->current_status; ?></p>
                                 <p><?php echo $almn->current_org; ?></p>
-                                <p style="margin-top: 8px;"><i class="fa fa-phone" aria-hidden="true"></i>  &nbsp;<?php echo $almn->phone; ?></p>
-                                <p><i class="fa fa-envelope-o" aria-hidden="true"></i>  &nbsp;<?php echo $almn->email; ?></p>
+
+                                <?php if( !$almn->hide_phone ){ ?>
+                                    <p style="margin-top: 8px;"><i class="fa fa-phone" aria-hidden="true"></i>  &nbsp;<?php echo $almn->phone; ?></p>
+                                <?php } ?>
+
+                                <?php if( !$almn->hide_email ){ ?>
+                                    <p><i class="fa fa-envelope-o" aria-hidden="true"></i>  &nbsp;<?php echo $almn->email; ?></p>
+                                <?php } ?>
+
                             </td>
                         </tr>
                         <?php } ?>
@@ -112,11 +119,6 @@ $alumniList = $_query->fetchAll(PDO::FETCH_OBJ);
 
 <?php include 'includes/footer.php'  ?>
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="js/min.js"></script>
-<!-----<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  ---->
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/bootstrap.min.js"></script>
 
 </body>
 

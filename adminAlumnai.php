@@ -170,7 +170,7 @@ function getAlumni($curPae, $db, $status = 'verified'){
                             echo "<td>$almn->passing_year</td>";
                             echo "<td>$almn->group</td>";
                             echo "<td>$almn->phone</td>";
-                            echo '<td><a href="adminAlumniAction.php?view='.$almn->id.'" class="btn btn-xs btn-primary"><i class="fa fa-eye"></i> View</a></td>';
+                            echo '<td><a href="adminAlumniAction.php?view='.$almn->id.'" class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i> Edit</a></td>';
 
                             if( $almn->status < 2 ){
                                 echo '<td><a href="adminAlumniAction.php?accept='.$almn->id.'" class="btn btn-xs btn-success"><i class="fa fa-check""></i> Accept</a></td>';

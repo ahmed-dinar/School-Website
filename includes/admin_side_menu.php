@@ -33,6 +33,9 @@
             <li <?php if($adminNav === 'alumni') echo 'class="active"'; ?> >
                 <a href="adminAlumnai.php">Alumni</a>
             </li>
+            <li <?php if($adminNav === 'academic') echo 'class="active"'; ?> >
+                <a href="adminAcademic.php">Academic</a>
+            </li>
             <li <?php if($adminNav === 'gallery') echo 'class="active"'; ?> >
                 <a href="galleryAdmin.php">Gallery</a>
             </li>

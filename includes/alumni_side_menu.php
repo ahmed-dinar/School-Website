@@ -28,9 +28,6 @@
                 <li  <?php if($alumniActive==='reg') echo 'class="active"'; ?> >
                     <a href="alumni_resistration.php">Be Member</a>
                 </li>
-                <li  <?php if($alumniActive==='how') echo 'class="active"'; ?> >
-                    <a href="alumni_instruction">How to resister</a>
-                </li>
                 <li  <?php if($alumniActive==='login') echo 'class="active"'; ?> >
                     <a href="alumni_login.php">Member Login</a>
                 </li>

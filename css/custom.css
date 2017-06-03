@@ -134,7 +134,7 @@
 	box-shadow: none !important;
 }
 
-form input.error{
+form input.error, form textarea.error{
 	border: 1px solid #a94442 !important;
 }
 

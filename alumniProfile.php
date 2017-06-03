@@ -68,14 +68,21 @@ $alumniInfo = $_query->fetchAll(PDO::FETCH_OBJ)[0];
                     <th width="25%">Name</th>
                     <td><?php echo $alumniInfo->name; ?></td>
                 </tr>
-                <tr>
-                    <th width="15%">Email</th>
-                    <td><?php echo $alumniInfo->email; ?></td>
-                </tr>
-                <tr>
-                    <th width="15%">Phone</th>
-                    <td><?php echo $alumniInfo->phone; ?></td>
-                </tr>
+
+                <?php if( $alumniInfo->hide_email != 0 ){ ?>
+                    <tr>
+                        <th width="15%">Email</th>
+                        <td><?php echo $alumniInfo->email; ?></td>
+                    </tr>
+                <?php } ?>
+
+                <?php if( $alumniInfo->hide_phone != 0 ){ ?>
+                    <tr>
+                        <th width="15%">Phone</th>
+                        <td><?php echo $alumniInfo->phone; ?></td>
+                    </tr>
+                <?php } ?>
+
                 <tr>
                     <th width="15%">Passing year</th>
                     <td><?php echo $alumniInfo->passing_year; ?></td>

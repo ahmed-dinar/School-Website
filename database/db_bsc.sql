@@ -84,6 +84,8 @@ CREATE TABLE IF NOT EXISTS `alumnai` (
   `status` TINYINT(1) NOT NULL DEFAULT '0',
   `password` varchar(64) NOT NULL,
   `salt` varchar(32) NOT NULL,
+  `hide_phone` TINYINT(1) NOT NULL DEFAULT '0',
+  `hide_email` TINYINT(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
@@ -100,6 +102,17 @@ CREATE TABLE IF NOT EXISTS `admin` (
 
 INSERT INTO `admin` (`username`, `password`,`salt`) VALUES
   ('admin', 'b90186d1a27cc09ef40c21cec20a3b5f737c936a8170cf712394c2448edcc093', 'ä2kvR•íñÃôµîÞR÷¤XñÎ1fÝõÙi%');
+
+
+CREATE TABLE IF NOT EXISTS `academic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(30) NOT NULL,
+  `class` TINYINT(3) NOT NULL,
+  `group` varchar(20) NOT NULL,
+  `file` varchar(100) NOT NULL,
+  `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
 -- --------------------------------------------------------
