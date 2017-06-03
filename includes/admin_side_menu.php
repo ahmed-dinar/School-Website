@@ -3,6 +3,7 @@
  *  Author: Ahmed-Dinar
  *  Created: 29/05/2017
  */
+if(!isset($adminNav)) $adminNav = "";
 ?>
 <div class="side-menu">
     <div>
@@ -34,7 +35,7 @@
                 <a href="adminAlumnai.php">Alumni</a>
             </li>
             <li <?php if($adminNav === 'academic') echo 'class="active"'; ?> >
-                <a href="adminAcademic.php">Academic</a>
+                <a href="adminAcademic.php?type=syllabus">Academic</a>
             </li>
             <li <?php if($adminNav === 'gallery') echo 'class="active"'; ?> >
                 <a href="galleryAdmin.php">Gallery</a>

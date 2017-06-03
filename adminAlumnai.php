@@ -92,8 +92,6 @@ function getAlumni($curPae, $db, $status = 'verified'){
 <html lang="en">
 <head>
     <?php $page_title = "Control panel"; include 'includes/head.php' ?>
-    <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">-->
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -198,10 +196,7 @@ function getAlumni($curPae, $db, $status = 'verified'){
     </div>
 </div>
 
-
 <?php include 'includes/footer.php'  ?>
-
-<script src="js/bootstrap.min.js"></script>
 
 
 </body>

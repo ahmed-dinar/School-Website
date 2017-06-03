@@ -3,6 +3,7 @@
  *  Author: Ahmed-Dinar
  *  Created: 29/05/2017
  */
+if(!isset($alumniActive)) $alumniActive = "";
 ?>
 <div class="side-menu">
     <h4>

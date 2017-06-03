@@ -15,9 +15,7 @@ $post_date=date('d-m-Y');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <?php $active_nav="notice"; $page_title = "Notice"; include 'includes/head.php' ?>
-
 </head>
 <body>
 
@@ -61,15 +59,7 @@ $post_date=date('d-m-Y');
     </div>
 </div>
 
-
-
 <?php include 'includes/footer.php'  ?>
 
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="js/min.js"></script>
-<!-----<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  ---->
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

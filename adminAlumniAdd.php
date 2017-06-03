@@ -189,7 +189,6 @@ function saveAlumni($validated_data, $db){
 <html lang="en">
 <head>
     <?php $active_nav="alumni"; $page_title = "Alumni Members"; include 'includes/head.php' ?>
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -290,10 +289,8 @@ function saveAlumni($validated_data, $db){
     </div>
 </div>
 
-
 <script src="js/jquery.validate.min.js"></script>
 <script src="js/alumni_form_validate.js"></script>
-<script src="js/bootstrap.min.js"></script>
 
 <?php include 'includes/footer.php'  ?>
 

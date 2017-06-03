@@ -55,6 +55,7 @@ switch ($file_extension){
         break;
     case "png":
         $content_type = "image/png";
+        break;
     case "pdf":
         $content_type = "application/pdf";
         break;
@@ -89,3 +90,5 @@ function getActionType($urlQuery){
 
     return $urlQuery["type"];
 }
+
+?>

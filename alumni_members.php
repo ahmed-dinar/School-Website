@@ -55,7 +55,6 @@ $alumniList = $_query->fetchAll(PDO::FETCH_OBJ);
 <html lang="en">
 <head>
     <?php $active_nav="alumni"; $page_title = "Alumni Members"; include 'includes/head.php' ?>
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
 

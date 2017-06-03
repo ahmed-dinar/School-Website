@@ -68,9 +68,7 @@ if(isset($_POST['submitEvent'])){
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <?php $page_title = "Notice & Event Control"; include 'includes/head.php' ?>
-
 </head>
 <body>
 
@@ -121,10 +119,5 @@ if(isset($_POST['submitEvent'])){
 <?php include 'includes/footer.php'  ?>
 
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="js/min.js"></script>
-<!-----<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  ---->
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -23,7 +23,7 @@ $type = getActionType($urlQuery);
 
 //invalid or no action in url query
 if( $type == false ){
-    echo "<h3>Forbidden</h3>";
+    echo "<h3>Invalid type</h3>";
     exit(0);
 }
 
@@ -36,7 +36,7 @@ $flashMsg = new \Plasticbrain\FlashMessages\FlashMessages();
  * Processing post request
  */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    include "includes/admin_ac_$type.php";
+    include "includes/admin_academic.php";
     return;
 }
 
@@ -62,7 +62,7 @@ if( array_key_exists("delete",$urlQuery) ){
  */
 function getActionType($urlQuery){
 
-    $allowedActions = array("calender","books","syllabus","examRoutine");
+    $allowedActions = array("calender","books","syllabus","examRoutine","classRoutine");
 
     if( array_key_exists("add", $urlQuery) ){
         $postType = $urlQuery["add"];
@@ -89,8 +89,6 @@ function getActionType($urlQuery){
 <html lang="en">
 <head>
     <?php $page_title = "Control panel"; include 'includes/head.php' ?>
-    <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">-->
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -116,12 +114,11 @@ function getActionType($urlQuery){
                     $flashMsg->display();
                 }
 
-                include "includes/admin_ac_$type.php";
+                include "includes/admin_academic.php";
             ?>
         </div>
     </div>
 </div>
-
 
 
 

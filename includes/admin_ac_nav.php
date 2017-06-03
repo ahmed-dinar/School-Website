@@ -3,6 +3,7 @@
  * Author: ahmed-dinar
  * Date: 6/3/17
  */
+if(!isset($type)) $type="";
 ?>
 
 <div style="margin-top: 10px; margin-bottom: 15px;" class="clearfix">
@@ -18,6 +19,9 @@
         </li>
         <li role="presentation" <?php if($type==='examRoutine') echo 'class="active"'; ?> >
             <a href="adminAcademic.php?type=examRoutine"><i class="fa fa-calendar-check-o"></i> Exam Routine</a>
+        </li>
+        <li role="presentation" <?php if($type==='classRoutine') echo 'class="active"'; ?> >
+            <a href="adminAcademic.php?type=classRoutine"><i class="fa fa-calendar-o"></i> Class Routine</a>
         </li>
     </ul>
 </div>

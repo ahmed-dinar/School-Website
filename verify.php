@@ -137,7 +137,6 @@ function isTokenExpired($token, $db){
 <html lang="en">
 <head>
     <?php $active_nav="alumni"; $page_title = "Alumni Members"; include 'includes/head.php' ?>
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
 <div class="form-center">
@@ -178,7 +177,6 @@ function isTokenExpired($token, $db){
     </div>
 </div>
 
-<script src="js/bootstrap.min.js"></script>
 
 </body>
 

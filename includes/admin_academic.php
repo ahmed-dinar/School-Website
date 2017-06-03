@@ -22,9 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if( !VALIDATE::exists('id', $id, $db, 'academic') )
             $flashMsg->error("Error while processing requests", $redirectTo);
 
-        $syllabusFile = VALIDATE::academicFile("sylFile");
-        if( array_key_exists("error", $syllabusFile) ){
-            switch ($syllabusFile["type"]){
+        $academicFile = VALIDATE::academicFile("sylFile");
+        if( array_key_exists("error", $academicFile) ){
+            switch ($academicFile["type"]){
                 case "404":
                     $flashMsg->error("file is required", $redirectTo);
                 case "ext":
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        if( !updateSyllabus($id, $syllabusFile["ext"], $db) )
+        if( !updateAcademic($id, $academicFile["ext"], $db) )
             $flashMsg->error("Error while processing request update", $redirectTo);
 
         $flashMsg->success("$type Successfully updated",$redirectTo);
@@ -49,9 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $flashMsg->error("Please select a Group", "adminAcademic.php?type=$type");
 
 
-    $syllabusFile = VALIDATE::academicFile("sylFile");
-    if( array_key_exists("error", $syllabusFile) ){
-        switch ($syllabusFile["type"]){
+    $academicFile = VALIDATE::academicFile("sylFile");
+    if( array_key_exists("error", $academicFile) ){
+        switch ($academicFile["type"]){
             case "404":
                 $flashMsg->error("file is required", $redirectTo);
             case "ext":
@@ -63,15 +63,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $class = $_POST["class"];
     $group = $_POST["group"];
-    $redirectTo = "adminAcademic.php?type=syllabus&class=$class&group=$group";
-    $syllabus = getSyllabus($class, $group, $db);
+    $redirectTo = "adminAcademic.php?type=$type&class=$class&group=$group";
+    $academicInfo = getAcademic($type,$class, $group, $db);
 
-    if( empty($syllabus) )
-        insertSyllabus($class, $group, $syllabusFile["ext"], $db,  $flashMsg, $redirectTo);
-    else if( !updateSyllabus($syllabus[0]->id, $syllabusFile["ext"], $db) )
+    if( empty($academicInfo) )
+        saveAcademic($type, $class, $group, $academicFile["ext"], $db,  $flashMsg, $redirectTo);
+    else if( !updateAcademic($academicInfo[0]->id, $academicFile["ext"], $db) )
         $flashMsg->error("Error while processing request update", $redirectTo);
     else
-        $flashMsg->success("Syllabus Successfully Updated", $redirectTo);
+        $flashMsg->success("$type Successfully Updated", $redirectTo);
 
     return;
 }
@@ -93,11 +93,11 @@ if( array_key_exists("group",$urlQuery)  ){
 }
 
 
-$syllabus = getSyllabus($class, $group, $db);
-
+$academicInfo = getAcademic($type, $class, $group, $db);
 $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College 2nd");
 
 /**
+ * @param $type
  * @param $class
  * @param $group
  * @param $fileName
@@ -105,19 +105,20 @@ $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College
  * @param $flashMsg
  * @param $redirectTo
  */
-function insertSyllabus($class, $group, $fileName, $db, $flashMsg, $redirectTo){
+function saveAcademic($type, $class, $group, $fileName, $db, $flashMsg, $redirectTo){
 
-    $_query = $db->prepare("INSERT INTO `academic`(`type`,`class`,`group`) VALUES('syllabus', :class, :group)");
+    $_query = $db->prepare("INSERT INTO `academic`(`type`,`class`,`group`) VALUES(:type, :class, :group)");
+    $_query->bindValue(":type", $type);
     $_query->bindValue(":class", $class);
     $_query->bindValue(":group", $group);
 
     if( !$_query->execute() || $_query->rowCount() == 0 )
         $flashMsg->error("Error while processing request", $redirectTo);
 
-    if( !updateSyllabus($db->lastInsertId(), $fileName, $db) )
+    if( !updateAcademic($db->lastInsertId(), $fileName, $db) )
         $flashMsg->error("Error while processing request insert", $redirectTo);
 
-    $flashMsg->success("Syllabus Successfully Added", $redirectTo);
+    $flashMsg->success("$type Successfully Added", $redirectTo);
 }
 
 
@@ -129,7 +130,7 @@ function insertSyllabus($class, $group, $fileName, $db, $flashMsg, $redirectTo){
  * @param $redirectTo
  * @return bool
  */
-function updateSyllabus($id, $file, $db){
+function updateAcademic($id, $file, $db){
 
     $file = "$id.$file";
 
@@ -164,14 +165,15 @@ function updateSyllabus($id, $file, $db){
 
 
 /**
+ * @param $type
  * @param $class
  * @param $group
  * @param $db
  * @return mixed
  */
-function getSyllabus($class, $group, $db){
+function getAcademic($type, $class, $group, $db){
 
-    $statement = "SELECT * FROM `academic` WHERE `type`='syllabus' ";
+    $statement = "SELECT * FROM `academic` WHERE `type`=:type ";
 
     if( !is_null($class) )
         $statement .= " AND `class` = :class ";
@@ -181,6 +183,7 @@ function getSyllabus($class, $group, $db){
 
     $statement .= " ORDER BY `type` DESC, `class` ASC, `group` DESC;";
     $_query = $db->prepare($statement);
+    $_query->bindValue(":type",$type);
 
     if( !is_null($class) )
         $_query->bindValue(":class",$class);
@@ -213,7 +216,7 @@ function showError($error){
 
 <div class="col-md-6">
 
-    <form method="post" action="adminAcademic.php?add=syllabus" enctype="multipart/form-data" >
+    <form method="post" action="adminAcademic.php?add=<?php echo $type; ?>" enctype="multipart/form-data" >
 
         <div class="form-group">
             <label>Select Class</label>
@@ -235,10 +238,10 @@ function showError($error){
             </select>
         </div>
 
-        <?php if(empty($syllabus)){ ?>
+        <?php if(empty($academicInfo)){ ?>
             <div class="fileSelect">
                 <div class="form-group">
-                    <label>Select Syllabus File (image or pdf)</label>
+                    <label>Select <?php echo $type; ?> File (image or pdf)</label>
                     <input type="file" name="sylFile" id="sylFile" />
                 </div>
                 <div class="form-group">
@@ -253,6 +256,7 @@ function showError($error){
 
 <div class="col-md-6">
     <div id="changeFormWrapper" class="hidden" style="border: 1px solid #ddd;">
+
         <form method="post" action="" id="changeForm" enctype="multipart/form-data" >
             <table class="table" style="margin-bottom: 0;">
                 <tbody>
@@ -261,7 +265,7 @@ function showError($error){
                     <tr>
                         <td colspan="2">
                             <div class="fileSelect">
-                                <div class="form-group"><label>Select Syllabus File (image or pdf)</label>
+                                <div class="form-group"><label>Select <?php echo $type; ?> File (image or pdf)</label>
                                     <input type="file" name="sylFile" id="sylFile" />
                                 </div>
                                 <div class="form-group">
@@ -277,7 +281,7 @@ function showError($error){
 </div>
 
 
-<?php if(!empty($syllabus)){ ?>
+<?php if(!empty($academicInfo)){ ?>
     <div class="col-md-12" style="margin-top: 20px;">
         <table class="table">
             <thead>
@@ -291,13 +295,13 @@ function showError($error){
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($syllabus as $item){ ?>
+            <?php foreach ($academicInfo as $item){ ?>
                 <tr>
                     <td><?php echo $item->type; ?></td>
                     <td><?php echo $classAlias[$item->class-6]; ?></td>
                     <td><?php echo $item->group; ?></td>
                     <td>
-                        <a target="_blank" class="btn btn-xs btn-info" href="academicFileView.php?type=syllabus&view=<?php echo $item->id; ?>">
+                        <a target="_blank" class="btn btn-xs btn-info" href="academicFileView.php?type=<?php echo $type; ?>&view=<?php echo $item->id; ?>">
                             <i class="fa fa-eye"></i> View
                         </a>
                     </td>
@@ -307,7 +311,7 @@ function showError($error){
                         </button>
                     </td>
                     <td>
-                        <a class="btn btn-xs btn-danger" href="adminAcademic.php?type=syllabus&delete=<?php echo $item->id; ?>">
+                        <a class="btn btn-xs btn-danger" href="adminAcademic.php?type=<?php echo $type; ?>&delete=<?php echo $item->id; ?>">
                             <i class="fa fa-trash-o"></i> Delete
                         </a>
                     </td>
@@ -361,7 +365,7 @@ function showError($error){
     });
 
     function redirectTO(targetClass, targetGroup) {
-        var url = 'adminAcademic.php?type=syllabus';
+        var url = 'adminAcademic.php?type=<?php echo $type; ?>';
         if( targetClass !== ''  )
             url += '&class='+ targetClass;
         if( targetGroup !== '' )

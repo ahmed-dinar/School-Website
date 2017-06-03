@@ -115,6 +115,9 @@ CREATE TABLE IF NOT EXISTS `academic` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
+
+
+
 -- --------------------------------------------------------
 
 --
@@ -177,7 +180,9 @@ INSERT INTO `gallery` (`id`, `title`, `img_file`) VALUES
 
 CREATE TABLE IF NOT EXISTS `local_result` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class` varchar(10) NOT NULL,
   `title` varchar(100) NOT NULL,
+  `result_year` int(5) NOT NULL,
   `publish_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `file` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
@@ -256,7 +261,9 @@ INSERT INTO `result_public` (`id`, `exam_name`, `exam_priority`, `group`, `resul
 CREATE TABLE IF NOT EXISTS `student` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class` int(3) NOT NULL,
-  `title` varchar(1000) NOT NULL,
+  `classString` int(3) NOT NULL,
+  `section` VARCHAR(2) NOT NULL,
+  `ac_year` VARCHAR(6) NOT NULL,
   `file` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

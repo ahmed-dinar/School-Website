@@ -104,7 +104,6 @@ if(isset($_POST['submitImg'])){
 
 <?php include 'includes/footer.php'  ?>
 
-<script src="js/bootstrap.min.js"></script>
 
 </body>
 </html>

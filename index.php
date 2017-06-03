@@ -83,7 +83,7 @@ $post_date=date('d-m-Y');
 
             </div>
             <!-----------------------ABOUT Basundia ------>
-            <div style="visibility: visible; animation-delay: 0.6s; animation-name: rollIn;border:2px solid #E5E5E5;box-shadow:3px 3px 5px 4px #E5E5E5;" class="welcome_bsc services wow rollIn" data-wow-delay=".6s">
+            <div style="visibility: visible; animation-delay: 0.6s; animation-name: rollIn;border:2px solid #E5E5E5;" class="shadow-box welcome_bsc services wow rollIn" data-wow-delay=".6s">
                 <div>
                     <img src="img/BSC_logo.jpg" style="width:120px;height:120px;float:left;padding:8px;">
                     <h2 style="text-align:center;color:#5C4283"><b>বসুন্দিয়া স্কুল এন্ড কলেজ এ আপনাকে স্বাগতম </b> </h2>

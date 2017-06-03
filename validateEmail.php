@@ -9,7 +9,7 @@
  */
 
 require_once 'database/connect.php';
-require_once 'includes/VALIDATE.php';
+require_once 'libs/VALIDATE.php';
 
 if( isset($_POST['email']) ) {
 
@@ -21,5 +21,5 @@ if( isset($_POST['email']) ) {
         echo "true";
 
 }else{
-    echo "false";
+    echo "Forbidden";
 }

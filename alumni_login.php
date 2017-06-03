@@ -66,11 +66,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $result = $_query->fetchAll(PDO::FETCH_OBJ)[0];
 
+    //email not confirmed yet
+    if( $result->status == 0 ){
+        $flashMsg->error("Please confirm your email.", "alumni_login.php");
+    }
+
+    //password does not match
     if( $result->password !== Hash::make($password, $result->salt) ){
         $flashMsg->error("Invalid email or password", "alumni_login.php");
     }
 
-    if( $result->status < 2 ){
+    //admin does not acpprove account yet
+    if( $result->status == 1 ){
         $flashMsg->error("Your account needs admin approval.", "alumni_login.php");
     }
 
@@ -85,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <?php $active_nav="alumni"; $page_title = "Alumni Members"; include 'includes/head.php' ?>
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -139,10 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-
 <?php include 'includes/footer.php'  ?>
 
-
-<script src="js/bootstrap.min.js"></script>
 
 </body>

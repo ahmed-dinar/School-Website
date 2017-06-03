@@ -25,14 +25,7 @@
 	width:100%;
 }
 
-.myFooter{
-	background-color:#444444;
-	margin-top: 15px;
-}
 
-.myFooterOther{
-	margin-top:8px;
-}
 
 .eventHead{
 	margin-top:8px;
@@ -43,7 +36,7 @@
 }
 
 
-.side-menu h4, .head-title {
+.side-menu h4 {
 	background-color:#5C4283;
 	color:#FFFFFF;
 	padding: 8px 5px;
@@ -71,21 +64,66 @@
 }
 
 .bottom-footer{
-	background-color: black;
-	color:#5C4283;
+	font-size: 13px;
+	background-color: #2b2b2b;
 	padding:8px;
 }
 
-.footerList ul {
-	padding-left:30px;
-}
-.footerList ul li{
-	list-style:none;
-	margin-left:0px;
+.bottom-footer .left-section{
+	color: #4e84b1;
+	float: left;
 }
 
-.footerList ul li a{
-	color:#FFFFFF;
+.bottom-footer .right-section{
+	color: #3e6a8e;
+	float: right;
+}
+
+.myFooter{
+	background-color: #444444;
+	margin-top: 15px;
+	padding: 20px;
+}
+
+
+.myFooterOther{
+	margin-top:8px;
+}
+
+
+.footer-menu ul li{
+	list-style: none;
+	margin-left: 0px;
+	padding: 2px 0;
+}
+
+.footer-menu ul li .fa{
+	margin-right: 6px;
+	color: #767676;
+}
+
+.footer-menu ul li a{
+	color:#dcdcdc;
+	font-size: 12px;
+	text-decoration: none;
+
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-ms-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+}
+
+.footer-menu ul li a:hover{
+	color: #FFFFFF;
+}
+
+.footer-menu{
+	padding-left: 0px;
+}
+
+.footer-menu h4{
+	color: #FFFFFF;
+	margin-left: 40px;
 }
 
 .welcome_bsc{
@@ -206,4 +244,52 @@ form sup{
 .public-alumni-table td{
 	padding-top: 10px !important;
 	padding-bottom: 10px !important;
+}
+
+#classnameview, #groupnameview{
+	font-weight: bold;
+}
+
+
+
+.shadow-box
+{
+	position:relative;
+	-webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+	-moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+	box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.shadow-box:before, .shadow-box:after
+{
+	content:"";
+	position:absolute;
+	z-index:-1;
+	-webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
+	-moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
+	box-shadow:0 0 20px rgba(0,0,0,0.8);
+	top:0;
+	bottom:0;
+	left:10px;
+	right:10px;
+	-moz-border-radius:100px / 10px;
+	border-radius:100px / 10px;
+}
+.shadow-box:after
+{
+	right:10px;
+	left:auto;
+	-webkit-transform:skew(8deg) rotate(3deg);
+	-moz-transform:skew(8deg) rotate(3deg);
+	-ms-transform:skew(8deg) rotate(3deg);
+	-o-transform:skew(8deg) rotate(3deg);
+	transform:skew(8deg) rotate(3deg);
+}
+
+.academic-table td, .academic-table th{
+	vertical-align: middle !important;
+	text-align: center !important;
+}
+
+.panel-heading .fa{
+	margin-right: 4px;
 }
