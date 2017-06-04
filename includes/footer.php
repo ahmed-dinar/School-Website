@@ -21,11 +21,11 @@
                 <div class="col-md-4">
                     <h4>ACADEMIC</h4>
                     <ul>
-                        <li><a href=""><span class="fa fa-caret-right"></span> Academic Calendar</a></li>
-                        <li><a href=""><span class="fa fa-caret-right"></span> Book List & Syllabus</a></li>
+                        <li><a href="academicCalender.php"><span class="fa fa-caret-right"></span> Academic Calendar</a></li>
+                        <li><a href="#"><span class="fa fa-caret-right"></span> Book List & Syllabus</a></li>
                         <li><a href="classRoutine.php"><span class="fa fa-caret-right"></span> Class Routine</a></li>
                         <li><a href="examRoutine.php"><span class="fa fa-caret-right"></span> Exam Schedule</a></li>
-                        <li><a href=""><span class="fa fa-caret-right"></span> Results</a></li>
+                        <li><a href="hscResult.php"><span class="fa fa-caret-right"></span> Results</a></li>
                     </ul>
                 </div>
             </div>

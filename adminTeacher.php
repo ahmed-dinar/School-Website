@@ -1,8 +1,13 @@
 <?php
-include('database/connect.php');
-?>
 
-<?php
+include 'includes/core.php';
+
+//if admin not logged in
+if( !isset($_SESSION['admin']) ){
+    header('Location: admin.php' );
+    exit(0);
+}
+include('database/connect.php');
 if(isset($_REQUEST['id'])){
     $id=$_REQUEST['id'];
 }
@@ -31,6 +36,20 @@ if(isset($_POST['t_submit'])){
             throw new Exception('Please choose a Category.');
         }
 
+        //check whether the principal is already exist or not..............
+        $test=0;
+        $t_pri=1;
+        $qryCheck=mysql_query("select t_designation from administration where position2='T' ");
+        while($get=mysql_fetch_array($qryCheck)){
+            $pri=$get['t_designation'];
+            if($pri==$t_pri){
+                $test++;
+            }
+        }
+        if($test>=1){
+            throw new Exception("This Principal is already exist. Change it first!!!!!");
+        }
+
         $uploaded_file=$_FILES['t_img']['name'];
         $file_basename=substr($uploaded_file, 0,strripos($uploaded_file, '.'));
 
@@ -51,21 +70,21 @@ if(isset($_POST['t_submit'])){
                 $p1='Principal';
                 $p2='T';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,subject,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_sub]','$_POST[t_cell]','$_POST[t_email]','$f1','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Teacher information added successfully.";
             }
             else if($name=='ahm'){
                 $qual=2;
                 $p1='Assistant Head Master';
                 $p2='T';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,subject,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_sub]','$_POST[t_cell]','$_POST[t_email]','$f1','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Teacher information added successfully.";
             }
             else if($name=='at'){
                 $qual=3;
                 $p1='Assistant Teacher';
                 $p2='T';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,subject,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_sub]','$_POST[t_cell]','$_POST[t_email]','$f1','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Teacher information added successfully.";
             }
 
         }else{
@@ -76,7 +95,7 @@ if(isset($_POST['t_submit'])){
                 $p2='T';
                 $no_img='blank-profile.png';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,subject,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_sub]','$_POST[t_cell]','$_POST[t_email]','$no_img','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Teacher information added successfully.";
             }
             else if($name=='ahm'){
                 $qual=2;
@@ -84,7 +103,7 @@ if(isset($_POST['t_submit'])){
                 $p2='T';
                 $no_img='blank-profile.png';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,subject,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_sub]','$_POST[t_cell]','$_POST[t_email]','$no_img','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Teacher information added successfully.";
             }
             else if($name=='at'){
                 $qual=3;
@@ -92,7 +111,7 @@ if(isset($_POST['t_submit'])){
                 $p2='T';
                 $no_img='blank-profile.png';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,subject,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_sub]','$_POST[t_cell]','$_POST[t_email]','$no_img','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Teacher information added successfully.";
             }
         }
     }
@@ -138,28 +157,28 @@ if(isset($_POST['add_stuff'])){
                 $p1='সহকারী গ্রন্থাগারিক';
                 $p2='S';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$f1','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertStuffSuccessMsg="Staff information added successfully.";
             }
             else if($name=='oa'){
                 $qual=2;
                 $p1='অফিস সহকারী ';
                 $p2='S';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$f1','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertStuffSuccessMsg="Staff information added successfully.";
             }
             else if($name=='nanny'){
                 $qual=3;
                 $p1='আয়া';
                 $p2='S';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$f1','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertStuffSuccessMsg="Staff information added successfully.";
             }
             else if($name=='dhoptori'){
                 $qual=4;
                 $p1='দপ্তরী';
                 $p2='S';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$f1','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertStuffSuccessMsg="Staff information added successfully.";
             }
 
         }else{
@@ -169,7 +188,7 @@ if(isset($_POST['add_stuff'])){
                 $p2='S';
                 $no_img='blank-profile.png';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$no_img','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertStuffSuccessMsg="Staff information added successfully.";
             }
             else if($name=='oa'){
                 $qual=2;
@@ -177,7 +196,7 @@ if(isset($_POST['add_stuff'])){
                 $p2='S';
                 $no_img='blank-profile.png';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$no_img','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertStuffSuccessMsg="Staff information added successfully.";
             }
             else if($name=='nanny'){
                 $qual=3;
@@ -185,7 +204,7 @@ if(isset($_POST['add_stuff'])){
                 $p2='S';
                 $no_img='blank-profile.png';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$no_img','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertStuffSuccessMsg="Staff information added successfully.";
             }
             else if($name=='dhoptori'){
                 $qual=4;
@@ -193,7 +212,7 @@ if(isset($_POST['add_stuff'])){
                 $p2='S';
                 $no_img='blank-profile.png';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$no_img','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertStuffSuccessMsg="Staff information added successfully.";
             }
         }
     }
@@ -221,6 +240,26 @@ if(isset($_POST['update_teacher'])){
             throw new Exception('Please choose a Category.');
         }
 
+        //check whether the principal is already exist or not..............
+        $qryCheckPrincipal=mysql_query("select position from administration where t_id='$_POST[u_id]' ");
+        while($get=mysql_fetch_array($qryCheckPrincipal)){
+            $getPosition=$get['position'];
+        }
+        if($getPosition!='Principal'){
+            $test=0;
+            $t_pri=1;
+            $qryCheck=mysql_query("select t_designation from administration where position2='T' ");
+            while($get=mysql_fetch_array($qryCheck)){
+                $pri=$get['t_designation'];
+                if($pri==$t_pri){
+                    $test++;
+                }
+            }
+            if($test>=1){
+                throw new Exception("This Principal is already exist. Change it first!!!!!");
+            }
+        }
+
         $uploaded_file=$_FILES['t_img']['name'];
         $file_basename=substr($uploaded_file, 0,strripos($uploaded_file, '.'));
 
@@ -245,21 +284,21 @@ if(isset($_POST['update_teacher'])){
                 $p1='Principal';
                 $p2='T';
                 $updateTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',subject='$_POST[t_sub]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$f1',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateTeacherSuccess="Teacher information updated successfully!";
             }
             else if($name=='ahm'){
                 $qual=2;
                 $p1='Assistant Head Master';
                 $p2='T';
                 $updateTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',subject='$_POST[t_sub]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$f1',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateTeacherSuccess="Teacher information updated successfully!";
             }
             else if($name=='at'){
                 $qual=3;
                 $p1='Assistant Teacher';
                 $p2='T';
                 $updateTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',subject='$_POST[t_sub]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$f1',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateTeacherSuccess="Teacher information updated successfully!";
             }
 
         }else{
@@ -268,21 +307,21 @@ if(isset($_POST['update_teacher'])){
                 $p1='Principal';
                 $p2='T';
                 $updateTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',subject='$_POST[t_sub]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$_POST[img]',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateTeacherSuccess="Teacher information updated successfully!";
             }
             else if($name=='ahm'){
                 $qual=2;
                 $p1='Assistant Head Master';
                 $p2='T';
                 $updateTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',subject='$_POST[t_sub]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$_POST[img]',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateTeacherSuccess="Teacher information updated successfully!";
             }
             else if($name=='at'){
                 $qual=3;
                 $p1='Assistant Teacher';
                 $p2='T';
                 $updateTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',subject='$_POST[t_sub]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$_POST[img]',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateTeacherSuccess="Teacher information updated successfully!";
             }
         }
     }
@@ -332,28 +371,28 @@ if(isset($_POST['update_stuff'])){
                 $p1='সহকারী গ্রন্থাগারিক';
                 $p2='S';
                 $updateStuffQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$f1',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateStaffSuccess="Staff information updated successfully!";
             }
             else if($name=='oa'){
                 $qual=2;
                 $p1='অফিস সহকারী ';
                 $p2='S';
                 $updateStuffQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$f1',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateStaffSuccess="Staff information updated successfully!";
             }
             else if($name=='nanny'){
                 $qual=3;
                 $p1='আয়া';
                 $p2='S';
                 $updateStuffQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$f1',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateStaffSuccess="Staff information updated successfully!";
             }
             else if($name=='dhoptori'){
                 $qual=4;
                 $p1='দপ্তরী';
                 $p2='S';
                 $updateStuffQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$f1',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateStaffSuccess="Staff information updated successfully!";
             }
 
         }else{
@@ -362,28 +401,28 @@ if(isset($_POST['update_stuff'])){
                 $p1='সহকারী গ্রন্থাগারিক';
                 $p2='S';
                 $updateStuffTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$_POST[img]',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateStaffSuccess="Staff information updated successfully!";
             }
             else if($name=='oa'){
                 $qual=2;
                 $p1='অফিস সহকারী ';
                 $p2='S';
                 $updateStuffTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$_POST[img]',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateStaffSuccess="Staff information updated successfully!";
             }
             else if($name=='nanny'){
                 $qual=3;
                 $p1='আয়া';
                 $p2='S';
                 $updateStuffTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$_POST[img]',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateStaffSuccess="Staff information updated successfully!";
             }
             else if($name=='dhoptori'){
                 $qual=4;
                 $p1='দপ্তরী';
                 $p2='S';
                 $updateStuffTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$_POST[img]',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $updateStaffSuccess="Staff information updated successfully!";
             }
         }
     }
@@ -393,14 +432,37 @@ if(isset($_POST['update_stuff'])){
 }
 
 
+// Delete Teacher
+
+if(isset($_REQUEST['TID'])){
+    $TID=$_REQUEST['TID'];
+    $pbrDelete=mysql_query("delete from administration where t_id='$TID'");
+    $t_image=$_REQUEST['getImg'];
+    if($_REQUEST['getImg']!='blank-profile.png'){
+        unlink("img_administration/$t_image");
+    }
+    $DeleteTeacherSuccessMessage="Data has been deleted successfully";
+}
+
+//Delete Stuff
+
+if(isset($_REQUEST['SID'])){
+    $SID=$_REQUEST['SID'];
+    $pbrDelete=mysql_query("delete from administration where t_id='$SID'");
+    $t_image=$_REQUEST['getImg'];
+    if($_REQUEST['getImg']!='blank-profile.png'){
+        unlink("img_administration/$t_image");
+    }
+    $DeleteStaffSuccessMessage="Data has been deleted successfully";
+}
+
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <?php $page_title = "Teacher & Stuff Control"; include 'includes/head.php' ?>
-
+    <?php include 'includes/head.php'; ?>
     <style>
         .teacherTable tr{
             margin-top:7px;
@@ -416,13 +478,17 @@ if(isset($_POST['update_stuff'])){
         .teacherTable tr td select option{
             width:278px;
         }
-
-
-
     </style>
+
+    <script type="text/javascript">
+        function confirmDelete(){
+            return confirm("Do you sure want to delete this data?");
+        }
+    </script>
 
 </head>
 <body>
+
 
 <?php include 'includes/header.php'; ?>
 
@@ -433,24 +499,30 @@ if(isset($_POST['update_stuff'])){
         </div>
         <!-------------Adding Teacher------------->
         <div class="col-md-5">
-            <h4 class="head-title">Add Teacher's Information</h4>
+            <h4 style="background-color:#5C4283;color:#FFFFFF;height:30px;padding-top:3px;text-align:center;">Add Teacher's Information</h4>
+            <?php
+            if(!empty($errorTeacher)){echo "<h3 style='color:red'>".$errorTeacher."</h3>";}
+            if(!empty($insertSuccessMsg)){
+                echo "<h3 style='color:green'>".$insertSuccessMsg."</h3>";
+            }
+            ?>
             <form method="post" action="" enctype="multipart/form-data">
                 <table class="teacherTable">
                     <tr>
                         <td>Name : </td>
-                        <td><input type="text" name="t_name"></input></td>
+                        <td><input type="text" name="t_name" placeholder="Required"></input></td>
                     </tr>
                     <tr>
                         <td>Qualification : </td>
-                        <td><input type="text" name="t_qualification"></input></td>
+                        <td><input type="text" name="t_qualification" placeholder="Required"></input></td>
                     </tr>
                     <tr>
                         <td>Subject : </td>
-                        <td><input type="text" name="t_sub"></td>
+                        <td><input type="text" name="t_sub" placeholder="Required"></td>
                     </tr>
 
                     <tr>
-                        <td>Select Designation: </td>
+                        <td>Select Designation*: </td>
                         <td>
 
                             <select name="category">
@@ -496,20 +568,26 @@ if(isset($_POST['update_stuff'])){
 
         <!-------------Adding Stuff------------->
         <div class="col-md-5">
-            <h4 class="head-title">Add Stuff's Information</h4>
+            <h4 style="background-color:#5C4283;color:#FFFFFF;height:30px;padding-top:3px;text-align:center;">Add Stuff's Information</h4>
+            <?php
+            if(!empty($errorStuff)){echo "<h3 style='color:red'>".$errorStuff."</h3>";}
+            if(!empty($insertStuffSuccessMsg)){
+                echo "<h3 style='color:green'>".$insertStuffSuccessMsg."</h3>";
+            }
+            ?>
             <form method="post" action="" enctype="multipart/form-data">
                 <table class="teacherTable">
                     <tr>
                         <td>Name : </td>
-                        <td><input type="text" name="t_name"></input></td>
+                        <td><input type="text" name="t_name" placeholder="Required"></input></td>
                     </tr>
                     <tr>
                         <td>Qualification : </td>
-                        <td><input type="text" name="t_qualification"></input></td>
+                        <td><input type="text" name="t_qualification" placeholder="Required"></input></td>
                     </tr>
 
                     <tr>
-                        <td>Select Designation: </td>
+                        <td>Select Designation<span>*</span> : </td>
                         <td>
 
                             <select name="category">
@@ -560,8 +638,21 @@ if(isset($_POST['update_stuff'])){
     <div class="row">
         <div class="col-md-6">
             <div class="techerEditDelete">
-                <h4 class="head-title">Operations on Teacher's Information</h4>
+                <h4 style="background-color:#5C4283;color:#FFFFFF;height:auto;padding:8px;text-align:center;">Operations on Teacher's Information</h4>
                 <?php
+                if(!empty($errorTeacherUpdate)){echo "<h3 style='color:red'>".$errorTeacherUpdate."</h3>"; $errorTeacherUpdate="";}
+                if(!empty($updateTeacherSuccess)){
+                    echo "<h3 style='color:green'>".$updateTeacherSuccess."</h3>";
+                    $updateTeacherSuccess="";
+                    $DeleteTeacherSuccessMessage="";
+                    $errorTeacherUpdate="";
+                }
+                if(!empty($DeleteTeacherSuccessMessage)){
+                    echo "<h3 style='color:green'>".$DeleteTeacherSuccessMessage."</h3>";
+                    $updateTeacherSuccess="";
+                    $DeleteTeacherSuccessMessage="";
+                    $errorTeacherUpdate="";
+                }
                 $test=0;
                 $sr=0;
                 $getTeacherQry=mysql_query("select * from administration where position2='T' order by t_designation asc");
@@ -575,7 +666,7 @@ if(isset($_POST['update_stuff'])){
                     $address=$get['address'];
                     $about=$get['about'];
                     $img=$get['t_img'];
-                    $get_id=$get['t_id'];
+                    $get_tid=$get['t_id'];
                     $test++;
                     $sr++;
                     ?>
@@ -622,7 +713,6 @@ if(isset($_POST['update_stuff'])){
                                                             <td>
 
                                                                 <select name="category">
-
                                                                     <option value="principal">অধ্যক্ষ</option>
                                                                     <option value="ahm">সকারী প্রধান শিক্ষক </option>
                                                                     <option value="at">সহকারী শিক্ষক</option>
@@ -645,7 +735,7 @@ if(isset($_POST['update_stuff'])){
                                                         </tr>
                                                         <tr>
                                                             <td>About : </td>
-                                                            <td><textarea rows="2" cols="32" name="t_about" value="<?php echo $about;?>"></textarea></td>
+                                                            <td><textarea rows="2" cols="32" name="t_about" value="<?php echo $about;?>"><?php echo $about;?></textarea></td>
                                                         </tr>
                                                         <tr>
                                                             <td>Choose Image :</td>
@@ -653,7 +743,7 @@ if(isset($_POST['update_stuff'])){
                                                         </tr>
                                                         <tr>
                                                             <td></td>
-                                                            <input type="hidden" name="u_id" value="<?php echo $get_id;?>"></input>
+                                                            <input type="hidden" name="u_id" value="<?php echo $get_tid;?>"></input>
                                                             <input type="hidden" name="img" value="<?php echo $img;?>"></input>
                                                             <td><input type="submit" name="update_teacher" value="Update" style="background-color:green;color:white;height:40px;border-radius:8px;"></td>
                                                         </tr>
@@ -664,7 +754,7 @@ if(isset($_POST['update_stuff'])){
                                         </div>
                                     </div>
                                 </div>
-                                <a href="#">Delete</a>
+                                <a onclick='return confirmDelete();' href="adminTeacher.php?TID=<?php echo $get_tid;?>&getImg=<?php echo $img;?>">Delete</a>
                             </td>
 
                         </tr><br>
@@ -676,8 +766,21 @@ if(isset($_POST['update_stuff'])){
         <!-------------Operations on Stuff------------->
         <div class="col-md-6">
             <div class="stuffEditDelete">
-                <h4 class="head-title">Operations on Stuff's Information</h4>
+                <h4 style="background-color:#5C4283;color:#FFFFFF;height:auto;padding:8px;text-align:center;">Operations on Stuff's Information</h4>
                 <?php
+                if(!empty($errorStuffUpdate)){echo "<h3 style='color:red'>".$errorStuffUpdate."</h3>"; $errorStuffUpdate="";}
+                if(!empty($updateStaffSuccess)){
+                    echo "<h3 style='color:green'>".$updateStaffSuccess."</h3>";
+                    $updateStaffSuccess="";
+                    $DeleteStaffSuccessMessage="";
+                    $errorStuffUpdate="";
+                }
+                if(!empty($DeleteStaffSuccessMessage)){
+                    echo "<h3 style='color:green'>".$DeleteStaffSuccessMessage."</h3>";
+                    $updateStaffSuccess="";
+                    $DeleteStaffSuccessMessage="";
+                    $errorStuffUpdate="";
+                }
                 $test=0;
                 $sr=0;
                 $modalNumber=110;
@@ -734,8 +837,7 @@ if(isset($_POST['update_stuff'])){
                                                             <td>Select Designation: </td>
                                                             <td>
 
-                                                                <select name="category" value="<?php echo $designation;?>">
-
+                                                                <select name="category">
                                                                     <option value="libralian">সহকারী গ্রন্থাগারিক</option>
                                                                     <option value="oa">অফিস সহকারী </option>
                                                                     <option value="nanny">আয়া</option>
@@ -759,7 +861,7 @@ if(isset($_POST['update_stuff'])){
                                                         </tr>
                                                         <tr>
                                                             <td>About : </td>
-                                                            <td><textarea rows="2" cols="32" name="t_about" value="<?php echo $about;?>"></textarea></td>
+                                                            <td><textarea rows="2" cols="32" name="t_about" value="<?php echo $about;?>"><?php echo $about;?></textarea></td>
                                                         </tr>
                                                         <tr>
                                                             <td>Choose Image :</td>
@@ -778,7 +880,7 @@ if(isset($_POST['update_stuff'])){
                                         </div>
                                     </div>
                                 </div>
-                                <a href="#">Delete</a>
+                                <a onclick='return confirmDelete();' href="adminTeacher.php?SID=<?php echo $get_id;?>&getImg=<?php echo $img;?>">Delete</a>
                             </td>
 
                         </tr><br>
@@ -789,8 +891,6 @@ if(isset($_POST['update_stuff'])){
 
     </div>
 </div>
-
-<?php include 'includes/footer.php'  ?>
-
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>

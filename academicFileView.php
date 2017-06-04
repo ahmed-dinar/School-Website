@@ -3,14 +3,7 @@
  * User: ahmed-dinar
  * Date: 6/3/17
  */
-date_default_timezone_set('Asia/Dhaka');
-//error_reporting(E_ALL);
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
-
-//start our session if not already started
-if (!session_id()) {
-    session_start();
-}
+include 'includes/core.php';
 
 parse_str($_SERVER['QUERY_STRING'], $urlQuery);
 $type = getActionType($urlQuery);

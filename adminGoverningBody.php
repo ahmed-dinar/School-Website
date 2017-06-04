@@ -1,8 +1,15 @@
 <?php
-include('database/connect.php');
-?>
 
-<?php
+include 'includes/core.php';
+
+//if admin not logged in
+if( !isset($_SESSION['admin']) ){
+    header('Location: admin.php' );
+    exit(0);
+}
+
+include('database/connect.php');
+
 if(isset($_REQUEST['id'])){
     $id=$_REQUEST['id'];
 }
@@ -29,6 +36,20 @@ if(isset($_POST['add_gvt'])){
             throw new Exception('Please choose a Category.');
         }
 
+        //check whether the principal is already exist or not..............
+        $test=0;
+        $e_pri=1;
+        $qryCheck=mysql_query("select t_designation from administration where position2='E' ");
+        while($get=mysql_fetch_array($qryCheck)){
+            $pri=$get['t_designation'];
+            if($pri==$e_pri){
+                $test++;
+            }
+        }
+        if($test>=1){
+            throw new Exception("The Chairman is already exist. Change it first!!!!!");
+        }
+
         $uploaded_file=$_FILES['t_img']['name'];
         $file_basename=substr($uploaded_file, 0,strripos($uploaded_file, '.'));
 
@@ -48,28 +69,28 @@ if(isset($_POST['add_gvt'])){
                 $p1='সভাপতি';
                 $p2='E';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$f1','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Information added successfully.";
             }
             else if($name=='shochib'){
                 $qual=2;
                 $p1='সচিব';
                 $p2='E';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$f1','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Information added successfully.";
             }
             else if($name=='guardian'){
                 $qual=3;
                 $p1='অভিভাবক সদস্য';
                 $p2='E';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$f1','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Information added successfully.";
             }
             else if($name=='donner'){
                 $qual=4;
                 $p1='দাতা সদস্য';
                 $p2='E';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$f1','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Information added successfully.";
             }
 
         }else{
@@ -79,7 +100,7 @@ if(isset($_POST['add_gvt'])){
                 $p2='E';
                 $no_img='blank-profile.png';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$no_img','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Information added successfully.";
             }
             else if($name=='shochib'){
                 $qual=2;
@@ -87,7 +108,7 @@ if(isset($_POST['add_gvt'])){
                 $p2='E';
                 $no_img='blank-profile.png';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$no_img','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Information added successfully.";
             }
             else if($name=='guardian'){
                 $qual=3;
@@ -95,7 +116,7 @@ if(isset($_POST['add_gvt'])){
                 $p2='E';
                 $no_img='blank-profile.png';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$no_img','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Information added successfully.";
             }
             else if($name=='donner'){
                 $qual=4;
@@ -103,12 +124,12 @@ if(isset($_POST['add_gvt'])){
                 $p2='E';
                 $no_img='blank-profile.png';
                 $insertTeacherQry=mysql_query("insert into administration (t_name,t_designation,t_qualification,t_phn,t_mail,t_img,position,position2,address,about) values('$_POST[t_name]','$qual','$_POST[t_qualification]','$_POST[t_cell]','$_POST[t_email]','$no_img','$p1','$p2','$_POST[t_address]','$_POST[t_about]')");
-
+                $insertSuccessMsg="Information added successfully.";
             }
         }
     }
     catch(Exception $e2){
-        $errorStuff=$e2->getMessage();
+        $errorExe=$e2->getMessage();
     }
 }
 
@@ -128,6 +149,26 @@ if(isset($_POST['update_gvt'])){
         $name=$_POST['category'];
         if(empty($name)){
             throw new Exception('Please choose a Category.');
+        }
+
+        //check whether the principal is already exist or not..............
+        $qryCheckChairman=mysql_query("select position from administration where t_id='$_POST[u_id]' ");
+        while($get=mysql_fetch_array($qryCheckChairman)){
+            $getPosition=$get['position'];
+        }
+        if($getPosition!='সভাপতি'){
+            $test=0;
+            $t_pri=1;
+            $qryCheck=mysql_query("select t_designation from administration where position2='E' ");
+            while($get=mysql_fetch_array($qryCheck)){
+                $pri=$get['t_designation'];
+                if($pri==$t_pri){
+                    $test++;
+                }
+            }
+            if($test>=1){
+                throw new Exception("This Principal is already exist. Change it first!!!!!");
+            }
         }
 
         $uploaded_file=$_FILES['t_img']['name'];
@@ -154,28 +195,28 @@ if(isset($_POST['update_gvt'])){
                 $p1='সভাপতি';
                 $p2='E';
                 $updateStuffQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$f1',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $UpdateSuccessMsg="Information updated successfully.";
             }
             else if($name=='shochib'){
                 $qual=2;
                 $p1='সচিব';
                 $p2='E';
                 $updateStuffQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$f1',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $UpdateSuccessMsg="Information updated successfully.";
             }
             else if($name=='guardian'){
                 $qual=3;
                 $p1='অভিভাবক সদস্য';
                 $p2='E';
                 $updateStuffQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$f1',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $UpdateSuccessMsg="Information updated successfully.";
             }
             else if($name=='donner'){
                 $qual=4;
                 $p1='দাতা সদস্য';
                 $p2='E';
                 $updateStuffQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$f1',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $UpdateSuccessMsg="Information updated successfully.";
             }
 
         }else{
@@ -184,46 +225,53 @@ if(isset($_POST['update_gvt'])){
                 $p1='সভাপতি';
                 $p2='E';
                 $updateStuffTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$_POST[img]',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $UpdateSuccessMsg="Information updated successfully.";
             }
             else if($name=='shochib'){
                 $qual=2;
                 $p1='সচিব';
                 $p2='E';
                 $updateStuffTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$_POST[img]',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $UpdateSuccessMsg="Information updated successfully.";
             }
             else if($name=='guardian'){
                 $qual=3;
                 $p1='অভিভাবক সদস্য';
                 $p2='S';
                 $updateStuffTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$_POST[img]',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $UpdateSuccessMsg="Information updated successfully.";
             }
             else if($name=='donner'){
                 $qual=4;
                 $p1='দাতা সদস্য';
                 $p2='E';
                 $updateStuffTeacherQry=mysql_query("update administration set t_name='$_POST[t_name]',t_designation='$qual',t_qualification='$_POST[t_qualification]',t_phn='$_POST[t_cell]',t_mail='$_POST[t_email]',t_img='$_POST[img]',position='$p1',position2='$p2',address='$_POST[t_address]',about='$_POST[t_about]' where t_id='$_POST[u_id]' ");
-
+                $UpdateSuccessMsg="Information updated successfully.";
             }
         }
     }
     catch(Exception $e2){
-        $errorStuffUpdate=$e2->getMessage();
+        $errorExeUpdate=$e2->getMessage();
     }
 }
 
-
+//Delete Executive
+if(isset($_REQUEST['EID'])){
+    $EID=$_REQUEST['EID'];
+    $pbrDelete=mysql_query("delete from administration where t_id='$EID'");
+    $t_image=$_REQUEST['getImg'];
+    if($_REQUEST['getImg']!='blank-profile.png'){
+        unlink("img_administration/$t_image");
+    }
+    $deleteSuccessMessage="Data has been deleted successfully";
+}
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <?php $page_title = "Governing Body Control"; include 'includes/head.php' ?>
-
+    <?php include 'includes/head.php'; ?>
     <style>
         .teacherTable tr{
             margin-top:7px;
@@ -242,6 +290,12 @@ if(isset($_POST['update_gvt'])){
 
     </style>
 
+    <script type="text/javascript">
+        function confirmDelete(){
+            return confirm("Do you sure want to delete this data?");
+        }
+    </script>
+
 </head>
 <body>
 
@@ -254,7 +308,13 @@ if(isset($_POST['update_gvt'])){
         </div>
 
         <div class="col-md-5">
-            <h4 class="head-title">Add Executive Member's Information</h4>
+            <h4 style="background-color:#5C4283;color:#FFFFFF;height:30px;padding-top:3px;text-align:center;">Add Executive Member's Information</h4>
+            <?php
+            if(!empty($errorExe)){echo "<h3 style='color:red'>".$errorExe."</h3>";}
+            if(!empty($insertSuccessMsg)){
+                echo "<h3 style='color:green'>".$insertSuccessMsg."</h3>";
+            }
+            ?>
             <form method="post" action="" enctype="multipart/form-data">
                 <table class="teacherTable">
                     <tr>
@@ -311,8 +371,21 @@ if(isset($_POST['update_gvt'])){
 
         <div class="col-md-5">
             <div class="stuffEditDelete">
-                <h4 class="head-title">Operations on Executive Member's Information</h4>
+                <h4 style="background-color:#5C4283;color:#FFFFFF;height:auto;padding:8px;text-align:center;">Operations on Executive Member's Information</h4>
                 <?php
+                if(!empty($errorExeUpdate)){echo "<h3 style='color:red'>".$errorExeUpdate."</h3>"; $errorExeUpdate="";}
+                if(!empty($UpdateSuccessMsg)){
+                    echo "<h3 style='color:green'>".$UpdateSuccessMsg."</h3>";
+                    $UpdateSuccessMsg="";
+                    $deleteSuccessMessage="";
+                    $errorExeUpdate="";
+                }
+                if(!empty($deleteSuccessMessage)){
+                    echo "<h3 style='color:green'>".$deleteSuccessMessage."</h3>";
+                    $UpdateSuccessMsg="";
+                    $deleteSuccessMessage="";
+                    $errorExeUpdate="";
+                }
                 $test=0;
                 $sr=0;
                 $modalNumber=110;
@@ -394,7 +467,7 @@ if(isset($_POST['update_gvt'])){
                                                         </tr>
                                                         <tr>
                                                             <td>About : </td>
-                                                            <td><textarea rows="2" cols="32" name="t_about" value="<?php echo $about;?>"></textarea></td>
+                                                            <td><textarea rows="2" cols="32" name="t_about" value="<?php echo $about;?>"><?php echo $about;?></textarea></td>
                                                         </tr>
                                                         <tr>
                                                             <td>Choose Image :</td>
@@ -413,7 +486,7 @@ if(isset($_POST['update_gvt'])){
                                         </div>
                                     </div>
                                 </div>
-                                <a href="#">Delete</a>
+                                <a onclick='return confirmDelete();' href="adminGoverningBody.php?EID=<?php echo $get_id;?>&getImg=<?php echo $img;?>">Delete</a>
                             </td>
 
                         </tr><br>
@@ -426,7 +499,6 @@ if(isset($_POST['update_gvt'])){
 </div>
 
 
-<?php include 'includes/footer.php'  ?>
-
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>

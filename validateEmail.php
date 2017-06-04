@@ -8,6 +8,8 @@
  *  TODO: maybe add an option to check if ajax, or die. Possible? Also already added csrf, why not use it?
  */
 
+include 'includes/core.php';
+
 require_once 'database/connect.php';
 require_once 'libs/VALIDATE.php';
 

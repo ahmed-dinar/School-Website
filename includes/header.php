@@ -37,39 +37,73 @@ $active_nav = isset($active_nav) ? $active_nav : "";
                     <a href="index">Home</a>
                 </li>
 
+                <li  class="dropdown <?php if($active_nav=='about') echo "active"; ?>">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> About Us <b class="caret"></b> </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="history.php">History</a></li>
+                        <li class="divider"></li>
+                        <li><a href="virtualCampusTour.php">Virtual Campus Tour</a></li>
+                        <li class="divider"></li>
+                        <li><a href="vision.php">Vision & Objectives</a></li>
+                        <li class="divider"></li>
+                        <li><a href="achievements.php">Achievements</a></li>
+                        <li class="divider"></li>
+                        <li><a href="infrastucture.php">Infrastucture</a></li>
+                    </ul>
+                </li>
+
                 <li  class="dropdown <?php if($active_nav=='administration') echo "active"; ?>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Administration <b class="caret"></b> </a>
                     <ul class="dropdown-menu">
-                        <li><a href="executiveBody">Govphperning Body</a></li>
+                        <li><a href="executiveBody.php">Govphperning Body</a></li>
                         <li class="divider"></li>
-                        <li><a href="teacher_stuff">Teachers & Stuff</a></li>
+                        <li><a href="teacher_stuff.php">Teachers & Stuff</a></li>
+                    </ul>
+                </li>
+
+                <li  class="dropdown <?php if($active_nav=='academic') echo "active"; ?>">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Academic <b class="caret"></b> </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="academicCalender.php"> Academic Calendar</a></li>
+                        <li class="divider"></li>
+                        <li><a href="bookList.php">Book List & Syllabus</a></li>
+                        <li class="divider"></li>
+                        <li><a href="classRoutine.php">Class Routine</a></li>
+                        <li class="divider"></li>
+                        <li><a href="examRoutine.php">Exam Schedule</a></li>
+                        <li class="divider"></li>
+                        <li><a href="hscResult.php">Results</a></li> <!----------Already Done----->
                     </ul>
                 </li>
 
                 <li <?php if($active_nav=='students') echo "class=\"active\" "; ?> >
-                    <a href="#">Students</a>
+                    <a href="student.php">Students</a>
                 </li>
+
+                <li class="dropdown <?php if($active_nav=='academic') echo "active"; ?>">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Result <b class="caret"></b> </a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-header">Public Result</li>
+                        <li><a href="sscResult.php">SSC</a></li>
+                        <li><a href="hscResult.php">HSC</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Academic Result</li>
+                        <li><a href="academicResult.php">Result</a></li>
+                    </ul>
+                </li>
+
+
                 <li <?php if($active_nav=='alumni') echo "class=\"active\" "; ?> >
                     <a href="alumni.php">Alumni</a>
                 </li>
 
-                <li class="dropdown <?php if($active_nav=='result') echo "active"; ?>">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Result <b class="caret"></b> </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="sscResult">SSC</a></li>
-                        <li class="divider"></li>
-                        <li><a href="hscResult">HSC</a></li>
-                    </ul>
-                </li>
                 <li <?php if($active_nav=='gallery') echo "class=\"active\" "; ?> >
                     <a href="gallery.php">Gallery</a>
                 </li>
                 <li <?php if($active_nav=='residance') echo "class=\"active\" "; ?> >
                     <a href="#">Residance</a>
                 </li>
-                <li <?php if($active_nav=='about') echo "class=\"active\" "; ?> >
-                    <a href="about.php">About</a>
-                </li>
+
             </ul>
 
         </div>

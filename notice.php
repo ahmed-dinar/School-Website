@@ -1,8 +1,7 @@
 <?php
+include 'includes/core.php';
 include('database/connect.php');
-?>
 
-<?php
 if(isset($_REQUEST['notice_id'])){
     $get_notice_id=$_REQUEST['notice_id'];
 }

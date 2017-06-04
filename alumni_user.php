@@ -3,12 +3,7 @@
  * User: ahmed-dinar
  * Date: 6/1/17
  */
-error_reporting(E_ALL);
-
-//start our session if not already started
-if (!session_id()) {
-    session_start();
-}
+include 'includes/core.php';
 
 if( !isset($_SESSION["user"]) ){
     header("Location: alumni_login.php");

@@ -1,8 +1,12 @@
 <?php
-include('database/connect.php');
-?>
+include 'includes/core.php';
 
-<?php
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = base64_encode(openssl_random_pseudo_bytes(32));
+}
+
+include('database/connect.php');
+
 if(isset($_REQUEST['id'])){
     $id=$_REQUEST['id'];
 }
@@ -82,15 +86,45 @@ $post_date=date('d-m-Y');
                 </a>
 
             </div>
-            <!-----------------------ABOUT Basundia ------>
-            <div style="visibility: visible; animation-delay: 0.6s; animation-name: rollIn;border:2px solid #E5E5E5;" class="shadow-box welcome_bsc services wow rollIn" data-wow-delay=".6s">
-                <div>
-                    <img src="img/BSC_logo.jpg" style="width:120px;height:120px;float:left;padding:8px;">
-                    <h2 style="text-align:center;color:#5C4283"><b>বসুন্দিয়া স্কুল এন্ড কলেজ এ আপনাকে স্বাগতম </b> </h2>
-                </div>
 
-                <p style="margin-top:5px;">একটি জাতির সুন্দর ও সমৃদ্ধ ভবিষ্যৎ রচনায় প্রধান উপায় হলো শিক্ষা। শিক্ষার আলোর স্পর্শে একজন ব্যক্তি পূর্ণাঙ্গ মানুষ হিসাবে গড়ে ওঠে । এক্ষেত্রে প্রতিষ্ঠানের গুরুত্ব সর্বাধিক।  দশ দশকের বেশি সময় ধরে বসুন্দিয়া স্কুল এন্ড কলেজ বাংলাদেশের  শিক্ষার অগ্রগতি, আদর্শ এবং দক্ষতার ক্ষেত্রে নিষ্ঠার সাথে অগ্রণী ভূমিকা পালন করে আসছে। এই প্রতিষ্ঠানের শিক্ষার্থীদের সৃজনশীলতা ও মেধার পরিচয় ক্রমাগত দেশ বিদেশে ছড়িয়ে পড়ছে ।  ডিজিটাল বাংলাদেশ গড়ার লক্ষ্যে, এই সময়ের কথা মাথায় রেখে এবং তথ্য প্রযুক্তির ক্ষেত্রে সৃষ্টিশীলতা সম্ভাবনার ক্ষেত্র সৃষ্টির জন্য 'বসুন্দিয়া স্কুল এন্ড কলেজ এর ওয়েবসাইট' একটি সমৃদ্ধ সংযোজন। </p>
+
+
+            <!-----------------------ABOUT Basundia ------>
+            <div class="welcome-banner welcome_bsc services wow rollIn" data-wow-delay=".6s">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="img/BSC_logo.jpg" style="width:120px;height:120px;float:left;padding:2px;margin-top:0px;">
+                    </div>
+                    <div class="col-md-10">
+                        <marquee behavior="alternate" direction="left"> <h2 style="text-align:center;color:#ffff;width:80%;"><b>বসুন্দিয়া স্কুল এন্ড কলেজ (বি.এসকলেজ) এর ওয়েবসাইটে আপনাকে স্বাগতম, সুস্বাগতম !!! </b> </h2> </marquee>
+                    </div>
+                </div>
             </div>
+
+            <div style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInDown;border:2px solid #E5E5E5;box-shadow:3px 3px 5px 4px #E5E5E5;" class="welcome_bsc services wow fadeInDown" data-wow-delay=".6s">
+                <p style="padding:10px;">
+                    অবিভক্ত বাংলার প্রাচীন জেলা যশোর এর ভৈরব নদীর তীর ঘেঁষে সদর উপজেলার প্রাণকেন্দ্র বসুন্দিয়া গ্রামে গড়ে উঠা বসুন্দিয়া স্কুল এন্ড কলেজ (বি.এসকলেজ) পরিবারের পক্ষ থেকে সকলকে আন্তরিক অভিনন্দন ও শুভেচ্ছা ।
+                    বসুন্দিয়া স্কুল এন্ড কলেজ (বি.এসকলেজ) একটি ঐতিহ্যবাহী বিদ্যায়তন। এর রয়েছে প্রায় শত বছরের গৌরবময় ইতিহাস। অনেক কীর্তিমান ব্যক্তিত্ব এই বিদ্যালয়ের শিক্ষার্থী ছিলেন। বর্তমান বিশ্ব এখন জ্ঞান বিজ্ঞানে এগিয়েছে অনেকটা, আধুনিক  তথ্য-প্রযুক্তির অত্যাধুনিক ধারায় সিক্ত করেছে নিজেদেরকে। পিছিয়ে নেই আমরাও। তাই বর্তমানে প্রযুক্তি র্নিভর শিক্ষা ব্যবস্থা গড়ার ক্ষেত্রে আমরাও দৃঢ় প্রত্যয়ী।
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#AboutBSC" style="margin-left:44%;margin-top:5px;">Read More</button>
+                </p>
+                <div id="AboutBSC" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header"><h3><b>বসুন্দিয়া স্কুল এন্ড কলেজ এ আপনাকে স্বাগতম </b> </h3></div>
+                            <div class="modal-body">
+                                <p>
+                                    অবিভক্ত বাংলার প্রাচীন জেলা যশোর এর ভৈরব নদীর তীর ঘেঁষে সদর উপজেলার প্রাণকেন্দ্র বসুন্দিয়া গ্রামে গড়ে উঠা বসুন্দিয়া স্কুল এন্ড কলেজ (বি.এসকলেজ) পরিবারের পক্ষ থেকে সকলকে আন্তরিক অভিনন্দন ও শুভেচ্ছা ।
+                                    বসুন্দিয়া স্কুল এন্ড কলেজ (বি.এসকলেজ) একটি ঐতিহ্যবাহী বিদ্যায়তন। এর রয়েছে প্রায় শত বছরের গৌরবময় ইতিহাস। অনেক কীর্তিমান ব্যক্তিত্ব এই বিদ্যালয়ের শিক্ষার্থী ছিলেন। বর্তমান বিশ্ব এখন জ্ঞান বিজ্ঞানে এগিয়েছে অনেকটা, আধুনিক  তথ্য-প্রযুক্তির অত্যাধুনিক ধারায় সিক্ত করেছে নিজেদেরকে। পিছিয়ে নেই আমরাও। তাই বর্তমানে প্রযুক্তি র্নিভর শিক্ষা ব্যবস্থা গড়ার ক্ষেত্রে আমরাও দৃঢ় প্রত্যয়ী।
+                                    ওয়েবসাইটের মাধ্যমে স্কুলের সকল তথ্য ছাত্র, শিক্ষক ও অভিভাবক কাছে দ্রুত পৌছে দেওয়ার ব্যবস্থা করা হয়েছে। ছাত্র ও শিক্ষকদের ডাটাবেজ তৈরি করে সকল তথ্য সংরক্ষণ করার করার পদক্ষেপ হাতে নেওয়া হয়েছে। আশা করছি ভবিষ্যতে ভর্তি কার্যক্রম থেকে শুরু করে ফলাফল প্রস্তুত করাসহ সকল কাজ অনলাইন সফটওয়ারের মাধ্যমে সম্পন্ন করা সম্ভব হবে। বিদ্যালয়ের আপডেট তথ্য সকলের কাছে পৌঁছে দেওয়ার জন্য বসুন্দিয়া স্কুল এন্ড কলেজ (বি.এসকলেজ) এর ওয়েব গুরুত্বপূর্ণ ভূমিকা পালন করবে।
+                                    আমরা চাই শুধু বাংলাদেশ নয় সারা পৃথিবীর মানুষের কাছে আমাদের প্রিয় প্রতিষ্ঠান বসুন্দিয়া স্কুল এন্ড কলেজ (বি.এসকলেজ)  কে পরিচয় করিয়ে দিতে। তাই আমাদের ওয়েবসাইটটি উন্মুক্ত করে ছড়িয়ে দিতে চাই সর্বত্র। এর ফলে শিক্ষক-শিক্ষার্থী ও অভিভাবকের মধ্যে সুসম্পর্ক তৈরি হবে। এছাড়া আমাদের প্রতিষ্ঠানের শিক্ষার্থী, অভিভাবক শুভাকাক্সক্ষী, মহৎপ্রাণ ব্যক্তিগণ তাদের প্রিয় প্রতিষ্ঠানের ইতিহাস, ঐতিহ্য, শিক্ষক ও শিক্ষার্থীদের তথ্য, বিভিন্ন অর্জন, বিজ্ঞপ্তি ও অন্যান্য তথ্য সমূহ দেখে রোমাঞ্চিত হবেন, দূর থেকে আমাদেরকে আন্তরিকতার বন্ধনে আবদ্ধ করবেন।
+                                </p>
+                            </div>
+                            <div class="modal-footer"><button type="button" class="btn btn-success" data-dismiss="modal">Close</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <!-----------------------Nested grid Inside col-md-9 ------>
             <div class="nested_grid">
@@ -155,7 +189,7 @@ $post_date=date('d-m-Y');
                         $test++;
                         $total_notice++;
                         ?>
-                        <p><a href="notice.php?notice_id=<?php echo $get['id']; ?>"><?php if($total_notice<=5){ ?><span class="glyphicon glyphicon-envelope" style="color:#5C4283;">&nbsp</span><?php }?><div style="margin-left:20px;margin-top:-32px;"><?php if($test==1 && $total_notice<=5){echo $get['notice_title'];echo '<img src="img/new.gif">';}else if($total_notice<=5){echo $get['notice_title'];echo "....Read More";}?></div></a></p>
+                        <p><a href="notice.php?notice_id=<?php echo $get['id']; ?>"><?php if($total_notice<=5){ ?><span class="fa fa-envelope" style="color:#5C4283;">&nbsp</span><?php }?><div style="margin-left:20px;margin-top:-32px;"><?php if($test==1 && $total_notice<=5){echo $get['notice_title'];echo '<img src="img/new.gif">';}else if($total_notice<=5){echo $get['notice_title'];echo "....Read More";}?></div></a></p>
                         <?php
                     }
                     ?>
@@ -171,7 +205,7 @@ $post_date=date('d-m-Y');
                     while($get=mysql_fetch_array($Event)){
                         $total_events++;
                         ?>
-                        <p><a href="event.php?event_id=<?php echo $get['id']; ?>"><?php if($total_events<=3){ ?><span class="glyphicon glyphicon-play" style="color:#5C4283;">&nbsp</span><?php }?><div style="margin-left:20px;margin-top:-32px;"><?php if($total_events<=3){echo $get['event_title'];}?></div></a></p>
+                        <p><a href="event.php?event_id=<?php echo $get['id']; ?>"><?php if($total_events<=3){ ?><span class="fa fa-caret-right" style="color:#5C4283;">&nbsp</span><?php }?><div style="margin-left: 10px;margin-top:-32px;"><?php if($total_events<=3){echo $get['event_title'];}?></div></a></p>
                         <?php
                     }
                     ?>
@@ -239,6 +273,42 @@ $post_date=date('d-m-Y');
                     <h4 style="text-align:center;margin-top:5px;"><a href="gallery.php" target="_blank">View All Gallery</a></h4>
                 </div>
             </div>
+
+
+            <!-- admin login  -->
+            <?php if ( !isset($_SESSION['admin']) ){ ?>
+            <div style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInRight;background-color:#FFFFFF;margin-top:20px;" class="eventHead services wow fadeInRight" data-wow-delay=".8s"> <!--------   Links----->
+                <div class="form-center" style="width: 270px;">
+
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4 class="panel-title text-bold text-center">Admin Login</h4>
+                        </div>
+                        <div class="panel-body" style="padding-top: 30px;">
+                            <form method="post" action="admin.php" id="logform">
+
+                                <div class="form-group input-icon">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    <input id="iUsername" type="username" name="username" placeholder="Username" class="form-control">
+                                </div>
+
+                                <div class="form-group input-icon">
+                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                    <input id="iPassword" type="password" name="password" placeholder="Password" class="form-control">
+                                </div>
+
+                                <input type="hidden" value="<?php echo $_SESSION['csrf_token']; ?>" name="csrf_token" />
+                                <div class="form-group text-center" style="margin-top: 10px;">
+                                    <button type="submit" data-loading-text="Logging in.." class="btn btn-primary btn-block btn-md">Login</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
 
         </div>
     </div>

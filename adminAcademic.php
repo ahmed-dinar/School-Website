@@ -3,20 +3,16 @@
  * Author: ahmed-dinar
  * Date: 6/3/17
  */
-date_default_timezone_set('Asia/Dhaka');
-//error_reporting(E_ALL);
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
+include 'includes/core.php';
 
-//start our session if not already started
-if (!session_id()) {
-    session_start();
-}
 
-// make sure admin logged in
+//if admin not logged in
 if( !isset($_SESSION['admin']) ){
-    echo "<h3>Forbidden</h3>";
+    header('Location: admin.php' );
     exit(0);
 }
+
+require_once 'libs/Academic.php';
 
 parse_str($_SERVER['QUERY_STRING'], $urlQuery);
 $type = getActionType($urlQuery);
@@ -55,31 +51,6 @@ if( array_key_exists("delete",$urlQuery) ){
 }
 
 
-/**
- * get alumni action type view/delete/accept
- * @param $urlQuery
- * @return bool|string
- */
-function getActionType($urlQuery){
-
-    $allowedActions = array("calender","books","syllabus","examRoutine","classRoutine");
-
-    if( array_key_exists("add", $urlQuery) ){
-        $postType = $urlQuery["add"];
-        if( !in_array($postType, $allowedActions) )
-            return false;
-
-        return $postType;
-    }
-
-    if( !array_key_exists("type", $urlQuery) )
-        return false;
-
-    if( !in_array($urlQuery["type"], $allowedActions) )
-        return false;
-
-    return $urlQuery["type"];
-}
 
 
 ?>
@@ -113,6 +84,7 @@ function getActionType($urlQuery){
                 if ($flashMsg->hasMessages($flashMsg::SUCCESS)) {
                     $flashMsg->display();
                 }
+
 
                 include "includes/admin_academic.php";
             ?>

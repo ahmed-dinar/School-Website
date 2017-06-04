@@ -3,20 +3,14 @@
  * Author: ahmed-dinar
  * Date: 5/30/17
  */
-date_default_timezone_set('Asia/Dhaka');
-//error_reporting(E_ALL);
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
+include 'includes/core.php';
 
-//start our session if not already started
-if (!session_id()) {
-    session_start();
-}
-
-// if normal user logged in, redirect to normal page
-if( isset($_SESSION['user']) ){
-    header('Location: alumni.php' );
+//if admin not logged in
+if( !isset($_SESSION['admin']) ){
+    header('Location: admin.php' );
     exit(0);
 }
+
 
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = base64_encode(openssl_random_pseudo_bytes(32));

@@ -1,17 +1,12 @@
 <?php
+include 'includes/core.php';
 
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
-
-//start our session if not already started
-if (!session_id()) {
-    session_start();
+//if admin not logged in
+if( !isset($_SESSION['admin']) ){
+    header('Location: admin.php' );
+    exit(0);
 }
-
 include('database/connect.php');
-
-require 'libs/FlashMessages.php';
-$msg = new \Plasticbrain\FlashMessages\FlashMessages();
-
 if(isset($_REQUEST['id'])){
     $id=$_REQUEST['id'];
 }
@@ -19,50 +14,46 @@ else{
     $id=0;
 }
 $post_date=date("d-m-Y");
+?>
 
-
+<?php
 if(isset($_POST['submitImg'])){
-
     try{
-
         if(empty($_POST['imgTitle'])){
             throw new Exception("Please Input your Image Title");
         }
 
+
         $uploaded_file=$_FILES['imgFile']['name'];
         $file_basename=substr($uploaded_file, 0,strripos($uploaded_file, '.'));
-
         if(empty($file_basename)){
             throw new Exception("Please Select your Image File");
+        }else{
+            $file_extension=substr($uploaded_file, strripos($uploaded_file, '.'));
+
+            $statement=$db->prepare("SHOW TABLE STATUS LIKE 'gallery'");
+            $statement->execute();
+            $result=$statement->fetchAll();
+            foreach($result as $row)
+                $new_id=$row[10];
+
+            $f1=$new_id.$file_extension;
+            move_uploaded_file($_FILES['imgFile']['tmp_name'], 'gallery/'.$f1);
+            $insertNoticeQry=mysql_query("insert into gallery (title,img_file) values('$_POST[imgTitle]','$f1')");
         }
-
-        $file_extension=substr($uploaded_file, strripos($uploaded_file, '.'));
-
-        $statement = $db->prepare("SHOW TABLE STATUS LIKE 'gallery'");
-        $statement->execute();
-        $result = $statement->fetchAll();
-        foreach($result as $row)
-            $new_id = $row[10];
-
-        $f1 = $new_id.$file_extension;
-        move_uploaded_file($_FILES['imgFile']['tmp_name'], 'gallery/'.$f1);
-        $insertNoticeQry = mysql_query("insert into gallery (title,img_file) values('$_POST[imgTitle]','$f1')");
-
     }
     catch(Exception $e){
-        $msg->error($e->getMessage(), "galleryAdmin.php");
+        $errorNotice=$e->getMessage();
     }
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php $page_title = "Gallery Control"; include 'includes/head.php' ?>
+    <?php include 'includes/head.php'; ?>
 </head>
 <body>
-
 <?php include 'includes/header.php'; ?>
 
 <div class="container">
@@ -71,15 +62,7 @@ if(isset($_POST['submitImg'])){
             <?php $adminNav='gallery'; include 'includes/admin_side_menu.php' ?>
         </div>
         <div class="col-md-10">
-            <h4 class="head-title">Add New Image To The Gallery</h4>
-
-            <?php
-            //show flash messages
-            if ($msg->hasErrors()) {
-                $msg->display();
-            }
-            ?>
-
+            <h4 style="background-color:#5C4283;color:#FFFFFF;height:30px;padding-top:3px;text-align:center;">Add New Image To The Gallery</h4>
             <form method="post" action="" enctype="multipart/form-data">
                 <p>Type Image Caption: (Use Bangla or English, Within few words will be bettre)</p>
                 <textarea rows="2" cols="50" name="imgTitle"></textarea><br><br>
@@ -102,8 +85,6 @@ if(isset($_POST['submitImg'])){
 </div>
 
 
-<?php include 'includes/footer.php'  ?>
-
-
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>

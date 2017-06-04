@@ -3,18 +3,12 @@
  * Author: ahmed-dinar
  * Date: 5/31/17
  */
-date_default_timezone_set('Asia/Dhaka');
-//error_reporting(E_ALL);
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
+include 'includes/core.php';
 
-//start our session if not already started
-if (!session_id()) {
-    session_start();
-}
 
-// make sure admin logged in
+//if admin not logged in
 if( !isset($_SESSION['admin']) ){
-    echo "<h3>Forbidden</h3>";
+    header('Location: admin.php' );
     exit(0);
 }
 

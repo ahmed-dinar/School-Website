@@ -1,8 +1,8 @@
 <?php
+include 'includes/core.php';
 include('database/connect.php');
-?>
 
-<?php
+
 if(isset($_REQUEST['id'])){
     $id=$_REQUEST['id'];
 }

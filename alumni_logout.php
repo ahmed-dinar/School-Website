@@ -4,10 +4,7 @@
  * Date: 6/1/17
  */
 
-//start our session if not already started
-if (!session_id()) {
-    session_start();
-}
+include 'includes/core.php';
 
 if( isset($_SESSION['user']) ){
     unset($_SESSION['user']);

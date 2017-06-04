@@ -4,12 +4,7 @@
  *  Created: 29/05/2017
  */
 
-error_reporting(E_ALL);
-
-//start our session if not already started
-if (!session_id()) {
-    session_start();
-}
+include 'includes/core.php';
 
 include('database/connect.php');
 

@@ -4,10 +4,7 @@
  * User: ahmed-dinar
  */
 
-//start our session if not already started
-if (!session_id()) {
-    session_start();
-}
+include 'includes/core.php';
 
 if( isset($_SESSION['admin']) ){
     unset($_SESSION['admin']);
