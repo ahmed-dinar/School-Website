@@ -1,7 +1,9 @@
 <?php
 include 'includes/core.php';
-include 'database/connect.php';
+include('database/connect.php');
+?>
 
+<?php
 if(isset($_REQUEST['id'])){
     $id=$_REQUEST['id'];
 }
@@ -14,7 +16,7 @@ $post_date=date('d-m-Y');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php $active_nav="student"; $page_title = "Student"; include 'includes/head.php' ?>
+    <?php include 'includes/head.php'; ?>
 
     <style>
         table tr td{
@@ -26,8 +28,9 @@ $post_date=date('d-m-Y');
 
 </head>
 <body>
-
 <?php include 'includes/header.php'; ?>
+
+<!------------Content Section (Add Your Code From Here)------------>
 
 <div class="container">
     <div class="row">
@@ -71,9 +74,6 @@ $post_date=date('d-m-Y');
     </div>
 </div>
 
-
-
-<?php include 'includes/footer.php'  ?>
-
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>

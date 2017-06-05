@@ -105,7 +105,7 @@ $post_date=date('d-m-Y');
                 <p style="padding:10px;">
                     অবিভক্ত বাংলার প্রাচীন জেলা যশোর এর ভৈরব নদীর তীর ঘেঁষে সদর উপজেলার প্রাণকেন্দ্র বসুন্দিয়া গ্রামে গড়ে উঠা বসুন্দিয়া স্কুল এন্ড কলেজ (বি.এসকলেজ) পরিবারের পক্ষ থেকে সকলকে আন্তরিক অভিনন্দন ও শুভেচ্ছা ।
                     বসুন্দিয়া স্কুল এন্ড কলেজ (বি.এসকলেজ) একটি ঐতিহ্যবাহী বিদ্যায়তন। এর রয়েছে প্রায় শত বছরের গৌরবময় ইতিহাস। অনেক কীর্তিমান ব্যক্তিত্ব এই বিদ্যালয়ের শিক্ষার্থী ছিলেন। বর্তমান বিশ্ব এখন জ্ঞান বিজ্ঞানে এগিয়েছে অনেকটা, আধুনিক  তথ্য-প্রযুক্তির অত্যাধুনিক ধারায় সিক্ত করেছে নিজেদেরকে। পিছিয়ে নেই আমরাও। তাই বর্তমানে প্রযুক্তি র্নিভর শিক্ষা ব্যবস্থা গড়ার ক্ষেত্রে আমরাও দৃঢ় প্রত্যয়ী।
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#AboutBSC" style="margin-left:44%;margin-top:5px;">Read More</button>
+                    <a href="#" data-toggle="modal" data-target="#AboutBSC" class="text-bold" style="text-decoration: underline;" >read More...</a>
                 </p>
                 <div id="AboutBSC" class="modal fade" role="dialog">
                     <div class="modal-dialog">

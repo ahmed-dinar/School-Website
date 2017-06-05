@@ -90,6 +90,18 @@ CREATE TABLE IF NOT EXISTS `alumnai` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
+INSERT INTO `alumnai` (`name`, `passing_year`,`group`,`email`,`phone`,`img`,`password`,`salt`,`status`) VALUES
+  ('Example Name 1','1965','Science','example1@gmail.com','01733333333','', '724ad26737a12d566f598af7d1961f311ec89a19cd9124a9e5908664a65c3cc7', '±«ñIÿû«íÔCŸi=¬\Z¼S\0vœ¼˜„¤+†ž†üN', '1'),
+  ('Example Name 2','1995','Science','example2@gmail.com','01833333333','', '724ad26737a12d566f598af7d1961f311ec89a19cd9124a9e5908664a65c3cc7', '±«ñIÿû«íÔCŸi=¬\Z¼S\0vœ¼˜„¤+†ž†üN', '1'),
+  ('Example Name 3','1975','Commerce','example3@gmail.com','01933333333','', '724ad26737a12d566f598af7d1961f311ec89a19cd9124a9e5908664a65c3cc7', '±«ñIÿû«íÔCŸi=¬\Z¼S\0vœ¼˜„¤+†ž†üN', '1'),
+  ('Example Name 4','1975','Science','example4@gmail.com','01633333333','', '724ad26737a12d566f598af7d1961f311ec89a19cd9124a9e5908664a65c3cc7', '±«ñIÿû«íÔCŸi=¬\Z¼S\0vœ¼˜„¤+†ž†üN', '2'),
+  ('Example Name 5','1980','Science','example5@gmail.com','01753333333','', '724ad26737a12d566f598af7d1961f311ec89a19cd9124a9e5908664a65c3cc7', '±«ñIÿû«íÔCŸi=¬\Z¼S\0vœ¼˜„¤+†ž†üN', '1'),
+  ('Example Name 6','1980','Commerce','example6@gmail.com','01853333333','', '724ad26737a12d566f598af7d1961f311ec89a19cd9124a9e5908664a65c3cc7', '±«ñIÿû«íÔCŸi=¬\Z¼S\0vœ¼˜„¤+†ž†üN', '2'),
+  ('Example Name 7','1980','Science','example7@gmail.com','01953333333','', '724ad26737a12d566f598af7d1961f311ec89a19cd9124a9e5908664a65c3cc7', '±«ñIÿû«íÔCŸi=¬\Z¼S\0vœ¼˜„¤+†ž†üN', '2'),
+  ('Example Name 8','1973','Humanities','example8@gmail.com','01653333333','', '724ad26737a12d566f598af7d1961f311ec89a19cd9124a9e5908664a65c3cc7', '±«ñIÿû«íÔCŸi=¬\Z¼S\0vœ¼˜„¤+†ž†üN', '2');
+
+
+
 CREATE TABLE IF NOT EXISTS `admin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -117,6 +129,17 @@ CREATE TABLE IF NOT EXISTS `academic` (
 
 
 
+CREATE TABLE IF NOT EXISTS `post` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `title` varchar(512) NOT NULL,
+  `content` TEXT NOT NULL,
+  `img` varchar(11) NOT NULL,
+  `posted` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` TINYINT(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
 
 
 -- --------------------------------------------------------
@@ -127,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `academic` (
 
 CREATE TABLE IF NOT EXISTS `events` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
-  `post_date` date NOT NULL,
+  `post_date` VARCHAR(15) NOT NULL,
   `event_title` varchar(500) NOT NULL,
   `event` varchar(1000) NOT NULL,
   PRIMARY KEY (`id`)
@@ -184,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `local_result` (
   `class` varchar(10) NOT NULL,
   `title` varchar(100) NOT NULL,
   `result_year` int(5) NOT NULL,
-  `publish_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `publish_date` VARCHAR(15) NOT NULL,
   `file` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

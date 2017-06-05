@@ -1,7 +1,9 @@
 <?php
-include 'includes/core.php';
+include('includes/core.php');
 include('database/connect.php');
+?>
 
+<?php
 if(isset($_REQUEST['id'])){
     $id=$_REQUEST['id'];
 }
@@ -15,8 +17,7 @@ $post_date=date('d-m-Y');
 <html lang="en">
 <head>
 
-    <?php $active_nav="result"; $page_title = "SSC Result"; include 'includes/head.php' ?>
-
+    <?php include 'includes/head.php'; ?>
     <style>
         table tr td{
             margin-top:8px;
@@ -27,9 +28,7 @@ $post_date=date('d-m-Y');
 
 </head>
 <body>
-
 <?php include 'includes/header.php'; ?>
-
 <!------------Content Section (Add Your Code From Here)------------>
 
 <div class="container">
@@ -52,9 +51,9 @@ $post_date=date('d-m-Y');
                 }
                 ?>
                 <?php if($test==1){?>
-                    <h4 class="head-title">SSC Result of <?php echo $result_year;?></h4>
+                    <h4 style="background-color:#5C4283;color:#FFFFFF;height:30px;padding-top:3px;text-align:center;">SSC Result of <?php echo $result_year;?></h4>
                 <?php } if($result_year==$tempYear-1){?>
-                    <h4 class="head-title">SSC Result of <?php echo $result_year;?></h4>
+                    <h4 style="background-color:#5C4283;color:#FFFFFF;height:30px;padding-top:3px;text-align:center;margin-top:15px;">SSC Result of <?php echo $result_year;?></h4>
                     <?php $tempYear=$result_year;}?>
                 <div style="border:2px solid #E5E5E5;box-shadow:3px 3px 5px 4px #E5E5E5;">
                     <table width="100%">
@@ -72,9 +71,6 @@ $post_date=date('d-m-Y');
     </div>
 </div>
 
-<?php include 'includes/footer.php'  ?>
-
-
-
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>

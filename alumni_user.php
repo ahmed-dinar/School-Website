@@ -44,8 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     //if csrf token does not match, there something wrong, may be security issue
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        echo "Invalid request";
-        exit(0);
+        die("Invalid request");
     }
 
     parse_str($_SERVER['QUERY_STRING'], $urlQuery);
@@ -75,8 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if( !updateAlumni($user->id,$db) )
         $flashMsg->error("Error while processing request", "alumni_user.php");
 
-
-
     $flashMsg->success("Successfully updated", "alumni_user.php");
     return;
 }
@@ -89,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  * @param $flashMsg
  * @return bool
  */
-function updateProfileImage($userid,$db,$errorRedirect, $flashMsg){
+function updateProfileImage($userid, $db, $errorRedirect, $flashMsg){
 
     $profileImg = VALIDATE::file("profileImg");
     if( array_key_exists("error", $profileImg) ){
@@ -108,23 +105,30 @@ function updateProfileImage($userid,$db,$errorRedirect, $flashMsg){
     $moveImgName = $userid.".".$profileImg["ext"];
 
     //check the folder has write permission, important for debugging!
-    if( !is_writable('img_alumni') )
-        return false;
+    if( !is_writable('img_alumni') ){
+       // die("permission denied");
+        $flashMsg->error("error while updating", "alumni_user.php");
+    }
+
 
     //remove the previous image
     if(file_exists('img_alumni/'.$moveImgName))
         unlink('img_alumni/'.$moveImgName);
 
     //move image
-    if( !move_uploaded_file($_FILES['profileImg']['tmp_name'], 'img_alumni/'.$moveImgName) )
-        return false;
+    if( !move_uploaded_file($_FILES['profileImg']['tmp_name'], 'img_alumni/'.$moveImgName) ){
+        // die("permission denied");
+        $flashMsg->error("error while updating", "alumni_user.php");
+    }
 
     $_query = $db->prepare("UPDATE `alumnai` SET `img` = :img WHERE `id` = :id");
     $_query->bindValue(':img', $moveImgName);
     $_query->bindValue(':id', $userid);
 
     if( !$_query->execute() )
-        $flashMsg->error("Successfully updated", "alumni_user.php");
+        $flashMsg->error("Error while processing request", "alumni_user.php");
+
+    $flashMsg->error("Successfully updated", "alumni_user.php");
 }
 
 
@@ -192,7 +196,7 @@ function validateForm($validator){
     $_POST = $validator->sanitize($_POST);
 
     $validator->validation_rules(array(
-        'name'    => 'alpha_space|max_len,100|min_len,3',
+        'name'    => 'max_len,100|min_len,3',
         'email'    => 'valid_email',
         'passing_year' => 'numeric|exact_len,4',
         'current_org' => 'max_len,50',
@@ -233,12 +237,10 @@ function validateForm($validator){
 <div class="content container min-body">
     <div class="row">
 
-        <div class="col-md-2">
-            <?php $alumniActive="my"; include "includes/alumni_side_menu.php"; ?>
-        </div>
+        <?php $alumniActive="profile"; include "includes/alumni_side_menu.php"; ?>
 
         <div class="col-md-2" style="margin-top: 10px;">
-            <img class="img-thumbnail" src="img_alumni/<?php echo $user->img; ?>"  />
+            <img class="img-thumbnail" onerror="this.src='img_alumni/blank-profile.png'" src="img_alumni/<?php echo $user->img === '' ? 'blank-profile.png' : $user->img; ?>"  />
             <table class="table" style="margin-top: 10px;">
                 <tbody>
                 <tr>

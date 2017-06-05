@@ -44,9 +44,7 @@ $alumniInfo = $_query->fetchAll(PDO::FETCH_OBJ)[0];
 
 <div class="content container min-body">
     <div class="row">
-        <div class="col-md-2">
-            <?php $alumniActive="members"; include "includes/alumni_side_menu.php"; ?>
-        </div>
+        <?php $alumniActive="members"; include "includes/alumni_side_menu.php"; ?>
 
         <div class="col-md-2" style="margin-top: 10px;">
             <img class="img-thumbnail" src="img_alumni/<?php echo $alumniInfo->img; ?>"  />

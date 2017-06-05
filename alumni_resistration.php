@@ -151,14 +151,14 @@ function validateForm($validator){
     $_POST = $validator->sanitize($_POST);
 
     $validator->validation_rules(array(
-        'name'    => 'required|alpha_space|max_len,100|min_len,3',
+        'name'    => 'required|max_len,100|min_len,3',
         'email'    => 'required|valid_email',
         'passingYear' => 'required|numeric|exact_len,4',
         'currentOrg' => 'max_len,50',
-        'presentAddress' => 'required|max_len,80',
+        'presentAddress' => 'max_len,80',
         'permanentAddress' => 'required|max_len,80',
-        'currentStatus' => 'required|max_len,30',
-        'phone' => 'numeric|max_len,20',
+        'currentStatus' => 'max_len,30',
+        'phone' => 'required|numeric|max_len,20',
         'group' => 'required'
     ));
 
@@ -219,14 +219,9 @@ function saveAlumni($validated_data, $db){
 <div class="content container min-body" style="margin-bottom: 30px;">
     <div class="row">
 
-        <div class="col-md-2">
-            <?php $alumniActive="reg"; include "includes/alumni_side_menu.php"; ?>
-        </div>
+        <?php $alumniActive="res"; include "includes/alumni_side_menu.php"; ?>
 
-        <div class="col-md-10">
-            <h4 style="margin-bottom: 30px; margin-left: 15px;" class="text-bold">
-                Resister for alumni
-            </h4>
+        <div class="col-md-12">
 
             <?php
                 //show flash messages
@@ -239,7 +234,11 @@ function saveAlumni($validated_data, $db){
                 }
             ?>
 
-            <div class="col-md-7">
+            <div style="width: 450px; margin: 0 auto;">
+
+                <h4 style="margin-bottom: 30px;" class="text-bold text-center">
+                    Resister for alumni
+                </h4>
 
                 <form action="alumni_resistration.php" method="post" id="alumniForm" enctype="multipart/form-data">
                     <div class="form-group">
@@ -342,7 +341,7 @@ function saveAlumni($validated_data, $db){
                 maxlength: 50
             },
             presentAddress: {
-                required: true,
+                required: false,
                 maxlength: 80
             },
             permanentAddress: {
@@ -350,7 +349,7 @@ function saveAlumni($validated_data, $db){
                 maxlength: 80
             },
             currentStatus: {
-                required: true,
+                required: false,
                 maxlength: 30
             },
             phone: {

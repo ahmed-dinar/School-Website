@@ -56,22 +56,20 @@ $alumniList = $_query->fetchAll(PDO::FETCH_OBJ);
 <div class="content container min-body">
     <div class="row">
 
-        <div class="col-md-2">
-            <?php $alumniActive="members"; include "includes/alumni_side_menu.php"; ?>
-        </div>
+        <?php $alumniActive="members"; include "includes/alumni_side_menu.php"; ?>
 
         <div class="col-md-6">
             <div class="panel panel-default" style="margin-top: 10px;">
 
                 <div class="panel-heading">
-                    <h4 class="panel-title text-bold">Alumni Members</h4>
+                    <h4 class="panel-title text-bold"><i class="fa fa-users"></i> Alumni Members</h4>
                 </div>
                 <div class="table-responsive" style="border-bottom: 1px solid #ddd;">
                     <table class="table public-alumni-table">
                         <tr>
                         <?php
                         foreach ($alumniList as $almn){
-
+                            $almn->img = $almn->img === '' ? 'blank-profile.png' : $almn->img;
                             echo "<td style=\"padding-left: 20px; width: 25%; \"><img src='img_alumni/$almn->img' width='100px' height='100px' /></td>";
                             ?>
 

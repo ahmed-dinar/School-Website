@@ -5,39 +5,65 @@
  */
 if(!isset($alumniActive)) $alumniActive = "";
 ?>
-<div class="side-menu">
-    <h4>
-        <div class="clearfix">Alumni</div>
 
-        <?php if(isset($_SESSION["user"])){ ?>
-            <a  href="alumni_logout.php" class="btn btn-xs btn-default text-bold" style="margin-top: 8px; border-radius: 1px; border: none; box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 1px 5px 0 rgba(0,0,0,0.12),0 3px 1px -2px rgba(0,0,0,0.2);">
-                Logout
+<div class="col-md-12 alumni-nav-wrapper">
+    <nav class="navbar navbar-default">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#alumni-navbar-collapse" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse alumni-navbar" id="alumni-navbar-collapse">
+
+            <a href="alumni.php" class="<?php if($alumniActive === 'home') echo 'active'; ?> btn btn-default navbar-btn">
+                <i class="fa fa-home"></i></i> Home
             </a>
-        <?php }  ?>
-    </h4>
+            <a href="alumni_members.php" class="<?php if($alumniActive === 'members') echo 'active'; ?> btn btn-default navbar-btn">
+                <i class="fa fa-users" aria-hidden="true"></i> Members
+            </a>
+            <a href="#" class="<?php if($alumniActive === 'events') echo 'active'; ?> btn btn-default navbar-btn">
+                <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Events
+            </a>
+            <a href="alumni_post.php" class="<?php if($alumniActive === 'home') echo 'post'; ?> btn btn-default navbar-btn">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Post
+            </a>
 
-    <div class="controlList">
-        <ul class="admin-side-menu">
-            <li  <?php if($alumniActive==='members') echo 'class="active"'; ?> >
-                <a href="alumni_members.php">Members</a>
-            </li>
-            <li  <?php if($alumniActive==='events') echo 'class="active"'; ?> >
-                <a href="#">Events</a>
-            </li>
+            <?php if( isset($_SESSION['user']) ){ ?>
 
-            <?php if(!isset($_SESSION["user"])){ ?>
-                <li  <?php if($alumniActive==='reg') echo 'class="active"'; ?> >
-                    <a href="alumni_resistration.php">Be Member</a>
-                </li>
-                <li  <?php if($alumniActive==='login') echo 'class="active"'; ?> >
-                    <a href="alumni_login.php">Member Login</a>
-                </li>
-            <?php }else{  ?>
-                <li  <?php if($alumniActive==='my') echo 'class="active"'; ?> >
-                    <a href="alumni_user.php">My Account</a>
-                </li>
-            <?php }  ?>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="<?php if($alumniActive === 'profile') echo 'active'; ?> dropdown-toggle nav-profile-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <img width="30" height="30" src="img_alumni/<?php echo $_SESSION['user']->img === '' ? 'blank-profile.png' : $_SESSION['user']->img; ?>" class="img-rounded"> Me <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="alumni_user">My account</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="alumni_logout.php">Log Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
 
-        </ul>
-    </div>
+            <?php }else{ ?>
+
+                <div class="pull-right">
+                    <a href="alumni_resistration.php" class="<?php if($alumniActive === 'res') echo 'active'; ?> btn btn-success navbar-btn pull-right">
+                        <i class="fa fa-graduation-cap" aria-hidden="true"></i> Resister for alumni
+                    </a>
+                    <a href="alumni_login.php" class="<?php if($alumniActive === 'login') echo 'active'; ?> btn btn-default navbar-btn pull-right">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i> Login
+                    </a>
+                </div>
+
+            <?php } ?>
+
+        </div>
+
+    </nav>
 </div>
+
+

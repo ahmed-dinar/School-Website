@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $flashMsg->error("email or password should not empty", "alumni_login.php");
     }
 
-    $_query = $db->prepare("SELECT `id`, `salt`, `status`, `password` FROM `alumnai` WHERE `email` = :email");
+    $_query = $db->prepare("SELECT `id`, `salt`, `status`, `password`,`img` FROM `alumnai` WHERE `email` = :email");
     $_query->bindValue(':email', $email);
 
     //database error
@@ -74,7 +74,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $flashMsg->error("Your account needs admin approval.", "alumni_login.php");
     }
 
-    $_SESSION['user'] = $result;
+    $userData = (object) array(
+        "id" => $result->id,
+        "img" => $result->img
+    );
+
+    $_SESSION['user'] = $userData;
+
     header('Location: alumni.php' );
     exit();
 }
@@ -93,11 +99,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="content container min-body">
     <div class="row">
 
-        <div class="col-md-2">
-            <?php $alumniActive="login"; include "includes/alumni_side_menu.php"; ?>
-        </div>
+        <?php $alumniActive="login"; include "includes/alumni_side_menu.php"; ?>
 
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class="form-center">
                 <?php
                 //show flash messages
