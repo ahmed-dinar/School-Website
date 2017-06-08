@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `alumnai` (
   `hide_phone` TINYINT(1) NOT NULL DEFAULT '0',
   `hide_email` TINYINT(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=InnoDB;
 
 
 INSERT INTO `alumnai` (`name`, `passing_year`,`group`,`email`,`phone`,`img`,`password`,`salt`,`status`) VALUES
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
   `password` varchar(64) NOT NULL,
   `salt` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=InnoDB;
 
 
 --
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `academic` (
   `year` YEAR(4) NOT NULL,
   `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=InnoDB;
 
 
 -- --------------------------------------------------------
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `posted` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` TINYINT(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=InnoDB;
 
 
 --
@@ -166,6 +166,29 @@ INSERT INTO `post` (`id`, `uid`, `title`, `content`, `img`, `posted`, `status`) 
   (5, 16, 'This is another test, calm down', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. \r\n\r\n\r\n\r\n\r\n\r\n\r\nLorem Ipsum has been the industry''s standard dummy text ever since the 1500s, \r\n\r\nwhen an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\r\n\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\r\n\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.', '5.jpg', '2017-06-08 00:13:28', 1);
 
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post`
+--
+
+CREATE TABLE IF NOT EXISTS `comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `pid` int(11) NOT NULL,
+  `content` TEXT CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL,
+  `posted` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` TINYINT(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `exam_schedule`
+--
+
 CREATE TABLE IF NOT EXISTS `exam_schedule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(512) NOT NULL,
@@ -175,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `exam_schedule` (
   `file` varchar(11) NOT NULL,
   `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=InnoDB;
 
 
 
@@ -191,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `event_title` varchar(500) NOT NULL,
   `event` varchar(1000) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB;
 
 --
 -- Dumping data for table `events`
@@ -214,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `gallery` (
   `title` text NOT NULL,
   `img_file` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB;
 
 --
 -- Dumping data for table `gallery`
@@ -247,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `local_result` (
   `publish_date` VARCHAR(15) NOT NULL,
   `file` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -262,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `noticeboard` (
   `notice` text NOT NULL,
   `file_name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB;
 
 --
 -- Dumping data for table `noticeboard`
@@ -292,7 +315,7 @@ CREATE TABLE IF NOT EXISTS `result_public` (
   `result_year` int(8) NOT NULL,
   `file_name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB;
 
 --
 -- Dumping data for table `result_public`
@@ -327,7 +350,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `ac_year` VARCHAR(6) NOT NULL,
   `file` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

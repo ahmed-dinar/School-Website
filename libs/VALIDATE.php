@@ -26,16 +26,15 @@ class VALIDATE
 
 
     /**
-     *
-     * @param $name
+     * @param $column
      * @param $value
      * @param $db
      * @param string $tbl
      * @return bool
      */
-    public static function exists($name, $value, $db, $tbl = 'alumnai'){
+    public static function exists($column, $value, $db, $tbl = 'alumnai'){
 
-        $statement = "SELECT `id` FROM $tbl WHERE $name = ? LIMIT 1";
+        $statement = "SELECT `id` FROM $tbl WHERE $column = ? LIMIT 1";
         $_query = $db->prepare($statement);
         if( $_query->execute([$value]) )
             return $_query->rowCount() == 0 ? false : true;

@@ -128,7 +128,7 @@ function updateProfileImage($userid, $db, $errorRedirect, $flashMsg){
     if( !$_query->execute() )
         $flashMsg->error("Error while processing request", "alumni_user.php");
 
-    $flashMsg->error("Successfully updated", "alumni_user.php");
+    $flashMsg->success("Successfully updated", "alumni_user.php");
 }
 
 

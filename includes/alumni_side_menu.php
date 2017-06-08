@@ -7,7 +7,7 @@ if(!isset($alumniActive)) $alumniActive = "";
 ?>
 
 <div class="col-md-12 alumni-nav-wrapper">
-    <nav class="navbar navbar-default">
+    <div class="navbar navbar-default">
 
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#alumni-navbar-collapse" aria-expanded="false">
@@ -41,9 +41,10 @@ if(!isset($alumniActive)) $alumniActive = "";
                             <img width="30" height="30" src="img_alumni/<?php echo $_SESSION['user']->img === '' ? 'blank-profile.png' : $_SESSION['user']->img; ?>" class="img-rounded"> Me <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="alumni_user">My account</a></li>
+                            <li><a href="alumni_user"><i class="fa fa-user" aria-hidden="true"></i> My account</a></li>
+                            <li><a href="alumni_post.php?user=<?php echo $_SESSION['user']->id; ?>" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> My Posts</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="alumni_logout.php">Log Out</a></li>
+                            <li><a href="alumni_logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i> Log Out</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -63,7 +64,7 @@ if(!isset($alumniActive)) $alumniActive = "";
 
         </div>
 
-    </nav>
+    </div>
 </div>
 
 

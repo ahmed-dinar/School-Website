@@ -12,12 +12,8 @@ function showPagination($pagination, $url){  ?>
             <ul class="pagination">
                 <li>
                     <?php if($pagination->hasPrevPage()){  ?>
-                        <a href="<?php echo $url.'page='.$pagination->prevPage(); ?>" aria-label="Previous">
-                    <?php }else{  ?>
-                        <a href="#" class="disabled" aria-label="Previous" >
-                    <?php }  ?>
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
+                        <a href="<?php echo $url.'page='.$pagination->prevPage(); ?>" aria-label="Previous">Prev</a>
+                    <?php } ?>
                 </li>
 
                 <li class="<?php echo $pagination->getCurPage() == 1 ? 'active' : ''; ?>">
@@ -38,12 +34,8 @@ function showPagination($pagination, $url){  ?>
 
                 <li>
                     <?php if($pagination->hasNextPage()){  ?>
-                    <a href="<?php echo $url.'page='.$pagination->nextPage(); ?>" aria-label="Previous">
-                        <?php }else{  ?>
-                        <a href="#" class="disabled" aria-label="Previous">
-                            <?php }  ?>
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
+                    <a href="<?php echo $url.'page='.$pagination->nextPage(); ?>" aria-label="Previous">Next</a>
+                        <?php }  ?>
                 </li>
             </ul>
         </nav>

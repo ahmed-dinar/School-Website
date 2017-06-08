@@ -26,41 +26,108 @@ require_once 'libs/Pagination.php';
 require 'libs/FlashMessages.php';
 $flashMsg = new \Plasticbrain\FlashMessages\FlashMessages();
 
+parse_str($_SERVER['QUERY_STRING'], $urlQuery);
+
+
+/**
+ * Delete a post
+ */
+if( array_key_exists("delete",$urlQuery) ){
+
+    $postId = $urlQuery["delete"];
+
+    $_query = $db->prepare("SELECT `uid` FROM `post` WHERE `id` = :id LIMIT 1;");
+    $_query->bindValue(":id", $postId);
+
+    if( !$_query->execute() )
+        die("Database error");
+
+    if( $_query->rowCount() == 0 )
+        die("404 Not Found");
+
+    if( $_query->fetchAll(PDO::FETCH_OBJ)[0]->uid !== $_SESSION["user"]->id )
+        die("403 Forbidden");
+
+    $_query = $db->prepare("DELETE FROM `post` WHERE `id` = :id ");
+    $_query->bindValue(":id", $postId);
+
+    if( !$_query->execute() )
+        die("Database error");
+
+    $flashMsg->success("Post successfully deleted", "alumni_post.php");
+    return;
+}
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     include 'includes/alumni_post.php';
     return;
 }
 
-
-$_query = $db->prepare("SELECT COUNT(*) as `count` FROM `post` WHERE `status` = 1");
-if( !$_query->execute() )
-    die("Database error");
-
-parse_str($_SERVER['QUERY_STRING'], $urlQuery);
+$userId = null;
 
 //for pagination
 $curPage = 1;
+
+
+//for a specific user
+if( array_key_exists("user",$urlQuery) ){
+    $userId = $urlQuery["user"];
+
+    $_query = $db->prepare( "SELECT `name` FROM `alumnai` WHERE `id` = :id");
+    $_query->bindValue(':id', $userId);
+
+    if( !$_query->execute() )
+        die("Database error");
+
+    if( $_query->rowCount() == 0 )
+        die("404 Not Found");
+
+    $username =  $_query->fetchAll(PDO::FETCH_OBJ)[0]->name;
+}
+
+
+
 
 //if page exists in url, validate it as integer
 if( array_key_exists("page",$urlQuery) && filter_var($urlQuery["page"], FILTER_VALIDATE_INT) && $urlQuery["page"] > 0 ){
     $curPage = $urlQuery["page"];
 }
 
+$statement = "SELECT COUNT(*) as `count` FROM `post` WHERE `status` = 1";
+if( !is_null($userId) )
+    $statement .= " AND `uid` = :uid ";
+
+$_query = $db->prepare($statement);
+
+if( !is_null($userId) )
+    $_query->bindValue(':uid', $userId);
+
+if( !$_query->execute() )
+    die("Database error");
+
 $result = $_query->fetchAll(PDO::FETCH_OBJ)[0];
-$pageLimit = 10;
+$pageLimit = 5;
 $pagination = new Pagination($curPage, $pageLimit, $result->count);
+
 
 $statement = "
 SELECT `post`.*, `alumnai`.`name`  FROM `post` 
 LEFT JOIN `alumnai`
 ON `post`.`uid` = `alumnai`.`id`
 WHERE `post`.`status` = 1 
-LIMIT :limit OFFSET :offset
 ";
+
+if( !is_null($userId) )
+    $statement .= " AND `post`.`uid` = :uid ";
+
+$statement .= " ORDER  BY `post`.`posted` DESC LIMIT :limit OFFSET :offset;";
+
 $_query = $db->prepare($statement);
 $_query->bindValue(':limit', (int)$pagination->getLimit(), PDO::PARAM_INT);
 $_query->bindValue(':offset', (int)$pagination->offset(), PDO::PARAM_INT);
+if( !is_null($userId) )
+    $_query->bindValue(':uid', $userId);
 
 if( !$_query->execute() )
     die("Database error");
@@ -134,9 +201,9 @@ function readMore($text){
 
             <div class="panel panel-default" id="editorPanel">
                 <div class="panel-heading"><i class="fa fa-pencil" aria-hidden="true"></i> Write post</div>
-                <form method="post" action="alumni_post.php" name="alumiPostForm" enctype="multipart/form-data"  >
+                <form method="post" action="alumni_post.php" id="alumiPostForm" name="alumiPostForm" enctype="multipart/form-data" accept-charset="utf-8"  >
                     <input name="title" id="title" class="form-control" style="margin-bottom: 10px; border: 0; border-bottom: 1px solid #ccc;" value="" placeholder="Title" />
-                    <textarea id="postEditor" class="form-control" rows="4" name="content" style="resize: vertical; border: none; border-bottom: 1px solid #ccc;" placeholder="Write something..." ></textarea>
+                    <textarea id="postEditor" class="form-control" rows="4" name="content" placeholder="Write something..." ></textarea>
                     <input type="hidden" value="<?php echo $_SESSION['csrf_token']; ?>" id="csrf_token" name="csrf_token" />
                     <div class="panel-body" id="editorBtn">
                         <div class="pull-left">
@@ -150,11 +217,19 @@ function readMore($text){
                 </form>
             </div>
 
+            <?php if( !is_null($userId) ){ ?>
+                <h5 style="border-bottom: 1px solid #ddd; line-height: 2em; ">
+                    <?php if( $userId === $_SESSION["user"]->id ){  ?>
+                        <b>My Posts</b>
+                    <?php }else{  ?>
+                        Posts by <b><?php echo $username; ?></b>
+                    <?php }  ?>
+                </h5>
+            <?php }  ?>
 
             <?php if(!empty($postList)){ ?>
+
                 <?php foreach ($postList as $post){ ?>
-
-
 
                     <div class="post-wrapper">
                         <div class="panel panel-default">
@@ -165,7 +240,9 @@ function readMore($text){
                                     </a>
                                 </h3>
                                 <div class="post-info">
-                                    <span><i class="fa fa-user" aria-hidden="true"></i> by <?php echo strtoupper($post->name); ?></span>
+                                    <span>
+                                        <i class="fa fa-user" aria-hidden="true"></i> by <a href="alumni_post.php?user=<?php echo $post->uid; ?>"><?php echo strtoupper($post->name); ?></a>
+                                    </span>
                                     <span><i class="fa fa-calendar-o" aria-hidden="true"></i> <?php echo strtoupper(date('l, F jS, Y', strtotime($post->posted)));  ?></span>
                                 </div>
                             </div>
@@ -173,15 +250,30 @@ function readMore($text){
                                 <img class="pull-left" height="300px" width="300px" src="alumni_post_img/<?php echo $post->img; ?>" />
                                 <p><?php echo nl2br(readMore($post->content)); ?>... <a href="alumni_post_vew.php?post=<?php echo $post->id; ?>">Read More</a></p>
                             </div>
+
+                            <?php if( !is_null($userId) && $post->uid === $_SESSION["user"]->id ){  ?>
+                                <div class="clearfix" style="margin-top: 10px;">
+                                    <a href="alumni_post.php?delete=<?php echo $post->id; ?>" class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash-o"></i> Delete
+                                    </a>
+                                    <a href="edit_post?post=<?php echo $post->id; ?>" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-pencil"></i> Edit
+                                    </a>
+                                </div>
+                            <?php } ?>
+
                         </div>
                     </div>
                 <?php } ?>
+                <?php showPagination($pagination, "alumni_post.php?"); ?>
             <?php } ?>
 
         </div>
     </div>
 </div>
 
+
+<script src="js/jquery.validate.min.js"></script>
 <script>
 
     $( document ).ready(function() {
@@ -216,6 +308,34 @@ function readMore($text){
             $("#editorBtn").hide();
         }else{
             $("#editorBtn").show();
+        }
+    });
+
+    //validate from in front end
+    $("#alumiPostForm").validate({
+        rules: {
+            title: {
+                required: true,
+                maxlength: 512
+            },
+            content: {
+                required: true
+            },
+            file: {
+                required: true
+            }
+        },
+        messages: {
+            title: {
+                required: "",
+                maxlength: ""
+            },
+            content: {
+                required: ""
+            },
+            file: {
+                required: ""
+            }
         }
     });
 

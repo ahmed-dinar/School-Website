@@ -26,7 +26,7 @@ if( !isset($_POST["content"]) || !isset($_POST["title"]) ){
     die("Invalid request");
 }
 
-$maxImageSize = 2097152; //1MB
+$maxImageSize = 2097152; //2MB
 $imageFile = VALIDATE::file("file", $maxImageSize);
 
 if( array_key_exists("error", $imageFile) ){

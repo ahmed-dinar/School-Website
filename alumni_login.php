@@ -27,15 +27,16 @@ $flashMsg = new \Plasticbrain\FlashMessages\FlashMessages();
  */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    if (!isset($_POST['csrf_token'])
+        || $_POST['csrf_token'] !== $_SESSION['csrf_token']
+        || !isset($_POST['password'])
+        || !isset($_POST['email']) ) {
+
         echo "Invalid request";
         exit(0);
     }
 
-    if (!isset($_POST['password']) || !isset($_POST['email'])) {
-        echo "Invalid request";
-        exit(0);
-    }
+
 
     $password = $_POST['password'];
     $email = $_POST['email'];

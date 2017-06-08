@@ -46,8 +46,10 @@ $alumniInfo = $_query->fetchAll(PDO::FETCH_OBJ)[0];
     <div class="row">
         <?php $alumniActive="members"; include "includes/alumni_side_menu.php"; ?>
 
+
+
         <div class="col-md-2" style="margin-top: 10px;">
-            <img class="img-thumbnail" src="img_alumni/<?php echo $alumniInfo->img; ?>"  />
+            <img class="img-thumbnail" src="img_alumni/<?php echo $alumniInfo->img === '' ? 'blank-profile.png' : $alumniInfo->img; ?>"  />
         </div>
 
         <div class="col-md-8" style="margin-top: 10px;">
@@ -94,11 +96,11 @@ $alumniInfo = $_query->fetchAll(PDO::FETCH_OBJ)[0];
                     <td><textarea rows="3" style="border: none; resize:none; width: 100%; box-sizing: border-box; padding: 5px;" readonly="readonly" ><?php echo $alumniInfo->about; ?></textarea></td>
                 </tr>
                 <tr>
-                    <th width="15%">Current Status</th>
+                    <th width="15%">Designation</th>
                     <td><?php echo $alumniInfo->current_status; ?></td>
                 </tr>
                 <tr>
-                    <th width="15%">Current Org</th>
+                    <th width="15%">Organization</th>
                     <td><?php echo $alumniInfo->current_org; ?></td>
                 </tr>
                 </tbody>

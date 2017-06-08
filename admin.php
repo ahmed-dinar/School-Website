@@ -139,10 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-
 <?php include 'includes/footer.php'  ?>
-
-<script src="js/bootstrap.min.js"></script>
 
 </body>
 </html>
