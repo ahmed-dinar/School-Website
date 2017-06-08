@@ -154,6 +154,7 @@ function getAlumni($curPae, $db, $status = 'verified'){
                         $verifiedAlumni = getAlumni($curPage,$db,$stat);
                         $in = 1;
                         foreach ($verifiedAlumni["data"] as $almn){
+                            $almn->img = $almn->img === '' ? 'blank-profile.png' : $almn->img;
                             echo "<tr indx=\"".($in-1)."\" >";
                             echo "<td>$in</td>";
                             echo "<td><img src='img_alumni/$almn->img' width='50px' height='50px' /></td>";

@@ -40,6 +40,9 @@ if(!isset($adminNav)) $adminNav = "";
             <li <?php if($adminNav === 'gallery') echo 'class="active"'; ?> >
                 <a href="galleryAdmin.php">Gallery</a>
             </li>
+            <li <?php if($adminNav === 'post') echo 'class="active"'; ?> >
+                <a href="adminPost.php">Alumni Posts</a>
+            </li>
         </ul>
     </div>
 </div>

@@ -28,7 +28,7 @@ $post_date=date('d-m-Y');
 
 </head>
 <body>
-<?php include 'includes/header.php'; ?>
+<?php $active_nav="result"; include 'includes/header.php'; ?>
 <!------------Content Section (Add Your Code From Here)------------>
 
 <div class="container">

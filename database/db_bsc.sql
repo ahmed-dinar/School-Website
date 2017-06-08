@@ -100,7 +100,11 @@ INSERT INTO `alumnai` (`name`, `passing_year`,`group`,`email`,`phone`,`img`,`pas
   ('Example Name 7','1980','Science','example7@gmail.com','01953333333','', '724ad26737a12d566f598af7d1961f311ec89a19cd9124a9e5908664a65c3cc7', '±«ñIÿû«íÔCŸi=¬\Z¼S\0vœ¼˜„¤+†ž†üN', '2'),
   ('Example Name 8','1973','Humanities','example8@gmail.com','01653333333','', '724ad26737a12d566f598af7d1961f311ec89a19cd9124a9e5908664a65c3cc7', '±«ñIÿû«íÔCŸi=¬\Z¼S\0vœ¼˜„¤+†ž†üN', '2');
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `admin`
+--
 
 CREATE TABLE IF NOT EXISTS `admin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -111,6 +115,10 @@ CREATE TABLE IF NOT EXISTS `admin` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
+
+--
+-- Dumping data for table `admin`
+--
 
 INSERT INTO `admin` (`username`, `password`,`salt`) VALUES
   ('admin', 'b90186d1a27cc09ef40c21cec20a3b5f737c936a8170cf712394c2448edcc093', 'ä2kvR•íñÃôµîÞR÷¤XñÎ1fÝõÙi%');
@@ -128,6 +136,11 @@ CREATE TABLE IF NOT EXISTS `academic` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post`
+--
 
 CREATE TABLE IF NOT EXISTS `post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -137,6 +150,30 @@ CREATE TABLE IF NOT EXISTS `post` (
   `img` varchar(11) NOT NULL,
   `posted` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` TINYINT(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+
+--
+-- Dumping data for table `post`
+--
+
+INSERT INTO `post` (`id`, `uid`, `title`, `content`, `img`, `posted`, `status`) VALUES
+  (1, 16, 'How to solve a alumni problem', 'Hi friedns.How are you.', '1.png', '2017-06-07 21:16:15', 1),
+  (2, 16, 'This is a sample heading of alumni post', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\r\n\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\r\n\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.', '2.jpg', '2017-06-07 22:15:44', 1),
+  (3, 16, 'How to make a cup of coffe', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. \r\n\r\nIt has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\r\n\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\r\n\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.', '3.jpg', '2017-06-07 23:49:32', 1),
+  (4, 16, 'Example of newline and spaces for read more algorithm', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s \r\n\r\n\r\n\r\n\r\nstandard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. \r\n\r\n\r\n\r\n\r\nIt has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\r\n\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\r\n\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.', '4.jpg', '2017-06-07 23:54:43', 1),
+  (5, 16, 'This is another test, calm down', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. \r\n\r\n\r\n\r\n\r\n\r\n\r\nLorem Ipsum has been the industry''s standard dummy text ever since the 1500s, \r\n\r\nwhen an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\r\n\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ''lorem ipsum'' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\r\n\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.', '5.jpg', '2017-06-08 00:13:28', 1);
+
+
+CREATE TABLE IF NOT EXISTS `exam_schedule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(512) NOT NULL,
+  `term` varchar(20) NOT NULL,
+  `college` TINYINT(1) NOT NULL DEFAULT '0',
+  `year` YEAR(4) NOT NULL,
+  `file` varchar(11) NOT NULL,
+  `added` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 

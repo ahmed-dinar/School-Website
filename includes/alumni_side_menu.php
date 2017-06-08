@@ -26,10 +26,10 @@ if(!isset($alumniActive)) $alumniActive = "";
             <a href="alumni_members.php" class="<?php if($alumniActive === 'members') echo 'active'; ?> btn btn-default navbar-btn">
                 <i class="fa fa-users" aria-hidden="true"></i> Members
             </a>
-            <a href="#" class="<?php if($alumniActive === 'events') echo 'active'; ?> btn btn-default navbar-btn">
+            <a href="alumni_events.php" class="<?php if($alumniActive === 'events') echo 'active'; ?> btn btn-default navbar-btn">
                 <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Events
             </a>
-            <a href="alumni_post.php" class="<?php if($alumniActive === 'home') echo 'post'; ?> btn btn-default navbar-btn">
+            <a href="alumni_post.php" class="<?php if($alumniActive === 'post') echo 'active'; ?> btn btn-default navbar-btn">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Post
             </a>
 

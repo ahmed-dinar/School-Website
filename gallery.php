@@ -19,9 +19,7 @@ $post_date=date('d-m-Y');
 
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/lightbox.css" rel="stylesheet">
-
     <script src="js/wow.min.js"></script>
-    <script src="js/min.js"></script>
     <script src="js/lightbox.min.js"></script>
 
 </head>
@@ -65,6 +63,12 @@ $post_date=date('d-m-Y');
 
             <?php
         }  // end of while
+        ?>
+
+
+        <?php
+        //for the last row of gallery, if row does not have 3 pictures, add closing tag for the row
+        if($test!==0) echo "</div>";
         ?>
 
     </div>

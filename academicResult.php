@@ -16,7 +16,7 @@ $post_date=date('d-m-Y');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include 'includes/head.php'; ?>
+    <?php $active_nav="result"; include 'includes/head.php'; ?>
 
     <style>
         table tr td{

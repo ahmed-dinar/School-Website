@@ -33,7 +33,7 @@ $academicInfo = getAcademic("calender", null, null, $db, $year);
 
 <div class="content container min-body">
     <div class="row">
-        <div class="col-md-12">
+
             <div class="col-md-8" style="margin-top: 20px;">
 
                 <?php
@@ -57,6 +57,7 @@ $academicInfo = getAcademic("calender", null, null, $db, $year);
                             <tr>
                                 <th>Year</th>
                                 <th>Download</th>
+                                <th style="width: 10%;"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -67,6 +68,7 @@ $academicInfo = getAcademic("calender", null, null, $db, $year);
                                             <i class="fa fa-download"></i> Download
                                         </a>
                                     </td>
+                                <td><div style="color: red; font-size: 22px;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></div></td>
                                 </tr>
                             <?php }  ?>
                             </tbody>
@@ -80,26 +82,7 @@ $academicInfo = getAcademic("calender", null, null, $db, $year);
             </div>
 
 
-            <!--
-            <div class="col-md-4">
-                <div class="panel-body">
 
-                    <div class="form-group">
-                        <label>Select Class</label>
-                        <select id="classList" name="class" class="form-control">
-                            <option value="" <?php if( is_null($class)) echo "selected"; ?> >Select Class</option>
-                            <?php for ($i = 0; $i < count($classAlias); $i++) { ?>
-                                <option  value="<?php echo $i+6; ?>" <?php if($class == $i+6) echo "selected"; ?> ><?php echo $classAlias[$i]; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-
-                </div>
-            </div>
-            -->
-
-
-        </div>
     </div>
 </div>
 

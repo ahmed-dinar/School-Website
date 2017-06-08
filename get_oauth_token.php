@@ -5,6 +5,8 @@
  *
  */
 
+$start = microtime(true);
+
 require_once 'libs/SendMail.php';
 
 $mail = new SendMail('justoj.com@gmail.com','Test sendmail class', 'Basundia school and college');
@@ -15,6 +17,9 @@ if( $mail->send() ){
     echo "<br>Mail sent error!!! :(<br>";
     echo $mail->getError();
 }
+
+$time_elapsed_secs = microtime(true) - $start;
+echo '<br><b>Total Execution Time:</b> '.$time_elapsed_secs.' Seconds';
 
 
 /*

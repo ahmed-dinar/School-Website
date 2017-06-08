@@ -17,8 +17,10 @@ if( $type == false ){
 include('database/connect.php');
 
 $id = $urlQuery["view"];
+$tableName = $type === 'examSchedule' ? "exam_schedule" : "academic";
+$directory = $type === 'examSchedule' ? "exam_schedule_files" : "academic_files";
 
-$_query = $db->prepare("SELECT * FROM `academic` WHERE `id`=:id LIMIT 1");
+$_query = $db->prepare("SELECT * FROM `$tableName` WHERE `id`=:id LIMIT 1");
 $_query->bindValue(":id",$id);
 
 if( !$_query->execute() ){
@@ -33,7 +35,7 @@ if( $_query->rowCount() == 0 ){
 
 $fileName = $_query->fetchAll(PDO::FETCH_OBJ)[0]->file;
 
-if( !file_exists("academic_files/$fileName") ){
+if( !file_exists("$directory/$fileName") ){
     echo "404, file not found";
     exit(0);
 }
@@ -58,12 +60,12 @@ switch ($file_extension){
 }
 
 
-header("Content-type: $content_type");
-header('Content-Disposition: inline; filename="'.$filename.'"');
+header('Content-type: ' . $content_type);
+//header('Content-Disposition: inline; filename=$filename");
 header('Content-Transfer-Encoding: binary');
 header('Accept-Range: bytes');
-header('Content-Length: ' . filesize("academic_files/$fileName"));
-@readfile("academic_files/$fileName");
+header('Content-Length: ' . filesize("$directory/$fileName"));
+@readfile("$directory/$fileName");
 
 
 /**
@@ -73,7 +75,7 @@ header('Content-Length: ' . filesize("academic_files/$fileName"));
  */
 function getActionType($urlQuery){
 
-    $allowedActions = array("calender","books","syllabus","examRoutine");
+    $allowedActions = array("calender","books","syllabus","examSchedule","classRoutine");
 
     if( !array_key_exists("type", $urlQuery) || !array_key_exists("view", $urlQuery) )
         return false;

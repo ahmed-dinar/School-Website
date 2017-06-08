@@ -5,7 +5,6 @@
  */
 include 'includes/core.php';
 
-
 //if admin not logged in
 if( !isset($_SESSION['admin']) ){
     header('Location: admin.php' );
@@ -23,10 +22,35 @@ if( $type == false ){
     exit(0);
 }
 
+$typeAlias = array(
+    "calender" => "Calender",
+    "syllabus" => "Syllabus & Book List",
+    "examSchedule" => "Exam Schedule",
+    "classRoutine" => "Class Routine"
+);
+
+
 include('database/connect.php');
 require 'libs/FlashMessages.php';
 $flashMsg = new \Plasticbrain\FlashMessages\FlashMessages();
 
+
+/**
+ * Delete an item
+ */
+if( array_key_exists("delete",$urlQuery) ){
+    deleteAcademic($urlQuery["delete"], $type, $db, $flashMsg, $typeAlias[$type]);
+    return;
+}
+
+
+/**
+ * Exam schedule
+ */
+if( $type === 'examSchedule' ){
+    include 'includes/admin_exam_schedule.php';
+    return;
+}
 
 /**
  * Processing post request
@@ -35,23 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     include "includes/admin_academic.php";
     return;
 }
-
-
-/**
- * Delete an item
- */
-if( array_key_exists("delete",$urlQuery) ){
-    $_query = $db->prepare("DELETE FROM `academic` WHERE `id` = :id");
-    $_query->bindValue(":id", $urlQuery["delete"]);
-    if( !$_query->execute() || $_query->rowCount() == 0  )
-        $flashMsg->error("Erro while processing request","adminAcademic.php?type=$type&class=6&group=Science");
-
-    $flashMsg->success("$type Successfully deleted","adminAcademic.php?type=$type&class=6&group=Science");
-    return;
-}
-
-
-
 
 ?>
 
@@ -92,11 +99,7 @@ if( array_key_exists("delete",$urlQuery) ){
     </div>
 </div>
 
-
-
 <?php include 'includes/footer.php'  ?>
-
-
 
 </body>
 </html>

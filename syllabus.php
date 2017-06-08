@@ -1,7 +1,7 @@
 <?php
 /**
  * Author: ahmed-dinar
- * Date: 6/4/17
+ * Date: 6/8/17
  */
 include 'includes/core.php';
 
@@ -31,7 +31,7 @@ if( array_key_exists("group",$urlQuery)  ){
 }
 
 
-$academicInfo = getAcademic("examRoutine", $class, $group, $db);
+$academicInfo = getAcademic("syllabus", $class, $group, $db);
 $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College 2nd");
 
 
@@ -48,11 +48,11 @@ $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College
 
 <div class="content container min-body">
     <div class="row">
-        <div class="col-md-12">
+
 
             <div class="col-md-8" style="margin-top: 20px;">
                 <div class="panel panel-default">
-                    <div class="panel-heading text-bold"><i class="fa fa-calendar"></i> Exam Schedule</div>
+                    <div class="panel-heading text-bold"><i class="fa fa-calendar"></i> Syllabus and Book list</div>
 
                     <?php if(!empty($academicInfo)){ ?>
 
@@ -126,7 +126,7 @@ $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College
 
 
 
-        </div>
+
     </div>
 </div>
 
@@ -149,7 +149,7 @@ $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College
     });
 
     function redirectTO(targetClass, targetGroup) {
-        var url = 'examRoutine.php';
+        var url = 'syllabus.php';
         var isand = false;
         if( targetClass !== ''  ) {
             url += '?class=' + targetClass;

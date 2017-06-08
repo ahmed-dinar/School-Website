@@ -37,7 +37,7 @@ $("#alumniForm").validate({
             maxlength: 50
         },
         presentAddress: {
-            required: true,
+            required: false,
             maxlength: 80
         },
         permanentAddress: {
@@ -45,7 +45,7 @@ $("#alumniForm").validate({
             maxlength: 80
         },
         currentStatus: {
-            required: true,
+            required: false,
             maxlength: 30
         },
         phone: {

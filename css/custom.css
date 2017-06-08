@@ -105,7 +105,6 @@
 .footer-menu ul li a{
 	color:#dcdcdc;
 	font-size: 12px;
-	text-decoration: none;
 
 	-webkit-transition: all 0.2s ease-in-out;
 	-moz-transition: all 0.2s ease-in-out;
@@ -114,7 +113,7 @@
 }
 
 .footer-menu ul li a:hover{
-	color: #FFFFFF;
+	color: #31b0d5;
 }
 
 .footer-menu{
@@ -354,4 +353,79 @@ form sup{
 .navbar-default .navbar-nav > .open > a:focus{
 	color: #FFFFFF;
 	background-color: #337ab7;
+}
+
+.focus-editor{
+	border: 1px solid #28a4bd !important;
+}
+
+.post-wrapper .panel-heading{
+	padding: 0;
+	padding-bottom: 15px;
+	background: transparent;
+	border: none;
+}
+
+.post-wrapper h3 a{
+	color: #333;
+}
+
+.post-wrapper h3{
+	margin: 0;
+}
+
+
+.post-wrapper, .post-view{
+	margin-top: 15px;
+	font-family: 'Open Sans', Arial, sans-serif;
+}
+
+.post-wrapper p{
+	font-size: 14px;
+	line-height: 20px;
+}
+
+
+.post-wrapper .panel-default{
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	padding: 15px;
+	border-color: transparent;
+	border-top-color: #eee;
+}
+
+
+.post-wrapper img {
+	display: block;
+	max-width: 300px;
+	max-height: 200px;
+	width: auto;
+	height: auto;
+	margin-right: 10px;
+}
+
+.post-info .fa{
+	color: #666;
+}
+
+.post-info{
+	margin-top: 10px;
+	margin-bottom: 12px;
+	font-family: 'Josefin Sans', sans-serif;
+	font-size: 12px;
+	letter-spacing: 1px;
+}
+
+.post-info span{
+	margin-right: 20px;
+}
+
+
+.post-view img{
+	display: block;
+	max-width: 748px;
+	max-height: 360px;
+	width: auto;
+	height: auto;
+	margin-right: 10px;
+	margin-bottom: 25px;
 }

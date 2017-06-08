@@ -48,7 +48,7 @@ $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College
 
 <div class="content container min-body">
     <div class="row">
-        <div class="col-md-12">
+
 
             <div class="col-md-8" style="margin-top: 20px;">
                 <div class="panel panel-default">
@@ -59,21 +59,21 @@ $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College
                         <table class="table table-bordered academic-table">
                             <thead>
                             <tr>
-                                <th>Class</th>
-                                <th>Group</th>
+                                <th>Year</th>
                                 <th>Download</th>
+                                <th width="10%"></th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php foreach ($academicInfo as $item){ ?>
                                 <tr>
-                                    <td><?php echo $classAlias[$item->class-6]; ?></td>
-                                    <td><?php echo $item->group; ?></td>
+                                    <td><?php echo $item->year; ?></td>
                                     <td>
                                         <a target="_blank" class="btn btn-sm btn-primary" href="academicFileView.php?type=classRoutine&view=<?php echo $item->id; ?>">
                                             <i class="fa fa-download"></i> Download
                                         </a>
                                     </td>
+                                    <td><div style="color: red; font-size: 22px;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></div></td>
                                 </tr>
                             <?php }  ?>
                             </tbody>
@@ -87,82 +87,10 @@ $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College
             </div>
 
 
-            <div class="col-md-4">
-                <div class="panel-body">
-
-                    <?php
-                    //show flash messages
-                    if ($flashMsg->hasErrors()) {
-                        $flashMsg->display();
-                    }
-
-                    if ($flashMsg->hasMessages($flashMsg::SUCCESS)) {
-                        $flashMsg->display();
-                    }
-                    ?>
-
-                    <div class="form-group">
-                        <label>Select Class</label>
-                        <select id="classList" name="class" class="form-control">
-                            <option value="" <?php if( is_null($class)) echo "selected"; ?> >Select Class</option>
-                            <?php for ($i = 0; $i < count($classAlias); $i++) { ?>
-                                <option  value="<?php echo $i+6; ?>" <?php if($class == $i+6) echo "selected"; ?> ><?php echo $classAlias[$i]; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Select Group</label>
-                        <select id="groupList" name="group" class="form-control">
-                            <option value="" <?php if( is_null($group)) echo "selected"; ?> >Select Group</option>
-                            <option value="Science" <?php if($group === "Science") echo "selected"; ?> >Science</option>
-                            <option value="Humanities" <?php if($group === "Humanities") echo "selected"; ?> >Humanities</option>
-                            <option value="Commerce" <?php if($group === "Commerce") echo "selected"; ?> >Commerce</option>
-                        </select>
-                    </div>
-
-                </div>
-            </div>
-
-
-
-        </div>
     </div>
 </div>
 
-<script>
 
-    $(function() {
-
-        // bind change event to select
-        $('#classList').on('change', function() {
-            var targetClass = $(this).val();
-            var targetGroup = $("#groupList").val();
-            redirectTO(targetClass,targetGroup);
-        });
-
-        $('#groupList').on('change', function() {
-            var targetGroup = $(this).val();
-            var targetClass = $("#classList").val();
-            redirectTO(targetClass,targetGroup);
-        });
-    });
-
-    function redirectTO(targetClass, targetGroup) {
-        var url = 'classRoutine.php';
-        var isand = false;
-        if( targetClass !== ''  ) {
-            url += '?class=' + targetClass;
-            isand = true;
-        }
-        if( targetGroup !== '' ) {
-            url += isand ? '&' : '?';
-            url += 'group=' + targetGroup;
-        }
-        window.location.replace(url);
-    }
-
-</script>
 
 
 

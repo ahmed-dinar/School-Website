@@ -60,7 +60,7 @@ function validateFile($academicFile, $flashMsg, $redirectTo){
             case "ext":
                 $flashMsg->error("only pdf, jpg, jpeg & png files are allowed", $redirectTo);
             default:
-                $flashMsg->error("error while processing requests", $redirectTo);
+                $flashMsg->error("Error while processing request.s", $redirectTo);
         }
     }
 }
@@ -88,7 +88,7 @@ function saveAcademic($type, $class, $group, $fileName, $db, $flashMsg, $redirec
     if( !$_query->execute() || $_query->rowCount() == 0 )
         $flashMsg->error("Error while processing request", $redirectTo);
 
-    if( !updateAcademic($db->lastInsertId(), $fileName, $db) )
+    if( !updateAcademic($db->lastInsertId(), $type, $fileName, $db) )
         $flashMsg->error("Error while processing request insert", $redirectTo);
 
     $flashMsg->success("$type Successfully Added", $redirectTo);
@@ -104,37 +104,36 @@ function saveAcademic($type, $class, $group, $fileName, $db, $flashMsg, $redirec
  * @param $redirectTo
  * @return bool
  */
-function updateAcademic($id, $file, $db){
+function updateAcademic($id, $type, $file, $db, $fieldName = "sylFile"){
+
+    $tableName = $type === 'examSchedule' ? "exam_schedule" : "academic";
+    $directory = $type === 'examSchedule' ? "exam_schedule_files" : "academic_files";
 
     $file = "$id.$file";
 
     //check if the photo has write permission
-    if( !is_writable('academic_files') ){
+    if( !is_writable($directory) ){
        // die("academic_files has not write permission!<br>");
 
         return false;
     }
 
     //remove the previous same named image
-    if(file_exists('academic_files/'.$file))
-        unlink('academic_files/'.$file);
+    if( file_exists("$directory/$file") )
+        unlink("$directory/$file");
 
     // move photo to image dir
-    if( !move_uploaded_file($_FILES['sylFile']['tmp_name'], 'academic_files/'.$file) ){
+    if( !move_uploaded_file($_FILES[$fieldName]['tmp_name'], "$directory/$file") ){
          // die("image not moved to academic_files<br>");
 
         return false;
     }
 
-
-    $_query = $db->prepare("UPDATE `academic` SET `file` = :file WHERE `id` = :id");
+    $_query = $db->prepare("UPDATE `$tableName` SET `file` = :file WHERE `id` = :id");
     $_query->bindValue(":file", $file);
     $_query->bindValue(":id", $id);
 
-    if( !$_query->execute() )
-        return false;
-
-    return true;
+    return $_query->execute();
 }
 
 
@@ -159,7 +158,7 @@ function showError($error){
  */
 function getActionType($urlQuery){
 
-    $allowedActions = array("calender","books","syllabus","examRoutine","classRoutine");
+    $allowedActions = array("calender","books","syllabus","examSchedule","classRoutine");
 
     if( array_key_exists("add", $urlQuery) ){
         $postType = $urlQuery["add"];
@@ -176,4 +175,97 @@ function getActionType($urlQuery){
         return false;
 
     return $urlQuery["type"];
+}
+
+
+/**
+ * @param $db
+ * @param null $id
+ * @param null $year
+ * @param null $college
+ * @param null $term
+ * @return mixed
+ */
+function getExamSchedule($db, $id = null, $year = null, $college = null, $term = null){
+
+    $statement = "SELECT * FROM `exam_schedule` ";
+    $and = "";
+    $where = "WHERE";
+    if( !is_null($college) ) {
+        $statement .= " WHERE `college` = :college ";
+        $and = "AND";
+        $where = "";
+    }
+
+    if( !is_null($id) ) {
+        $statement .= " $where $and `id` = :id ";
+        $and = "AND";
+        $where = "";
+    }
+
+    if( !is_null($year) ) {
+        $statement .= " $where $and `year` = :year ";
+        $and = "AND";
+        $where = "";
+    }
+
+    if( !is_null($term) )
+        $statement .= " $where $and `term` = :term ";
+
+    $_query = $db->prepare($statement);
+
+    if( !is_null($college) )
+        $_query->bindValue(":college", $college);
+
+    if( !is_null($id) )
+        $_query->bindValue(":id", $id);
+
+    if( !is_null($year) )
+        $_query->bindValue(":year", $year);
+
+    if( !is_null($term) )
+        $_query->bindValue(":term", $term);
+
+    if( !$_query->execute() )
+        die("database error");
+
+    return $_query->fetchAll(PDO::FETCH_OBJ);
+}
+
+
+/**
+ * Delete an academic entry from database as well as file
+ * @param $id
+ * @param $type
+ * @param $db
+ * @param $flashMsg
+ * @param $typeName
+ */
+function deleteAcademic($id, $type, $db, $flashMsg, $typeName){
+
+    $redirectTo = "adminAcademic.php?type=$type";
+    $tableName = $type === 'examSchedule' ? "exam_schedule" : "academic";
+    $directory = $type === 'examSchedule' ? "exam_schedule_files" : "academic_files";
+
+    $_query = $db->prepare("SELECT `file` FROM `$tableName` WHERE `id` = :id LIMIT 1");
+    $_query->bindValue(":id", $id);
+
+    if( !$_query->execute()  )
+        $flashMsg->error("Error while processing request",$redirectTo);
+
+    if( $_query->rowCount() == 0 )
+        $flashMsg->error("404, No such file",$redirectTo);
+
+    $file = $_query->fetchAll(PDO::FETCH_OBJ)[0]->file;
+
+    $_query = $db->prepare("DELETE FROM `$tableName` WHERE `id` = :id");
+    $_query->bindValue(":id", $id);
+    if( !$_query->execute()  )
+        $flashMsg->error("Error while processing request",$redirectTo);
+
+    //remove the previous same named image
+    if(file_exists("$directory/$file"))
+        unlink("$directory/$file");
+
+    $flashMsg->success("$typeName Successfully deleted",$redirectTo);
 }

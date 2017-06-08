@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $academicFile = VALIDATE::academicFile("sylFile");
         validateFile($academicFile, $flashMsg, $redirectTo);
 
-        if( !updateAcademic($id, $academicFile["ext"], $db) )
+        if( !updateAcademic($id, $type, $academicFile["ext"], $db) )
             $flashMsg->error("Error while processing request update", $redirectTo);
 
         $flashMsg->success("$type Successfully updated",$redirectTo);
@@ -33,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    //calender action
-    if( $type === 'calender' ){
+    //calender or classRoutine action, (only file and year)
+    if( $type === 'calender' || $type === 'classRoutine' ){
 
         if( !isset($_POST['year']) )
             die("invalid request");
@@ -54,21 +54,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         else
             $flashMsg->error("A $type of year $year already added.Please update it from list below.", $redirectTo);
 
-       /* else if( !updateAcademic($academicInfo[0]->id, $academicFile["ext"], $db) )
-            $flashMsg->error("Error while processing request update", $redirectTo);*/
-
         $flashMsg->success("unknown action", $redirectTo);
         return;
     }
 
+    /*********  FOR syllabus and book list *************/
 
+    //needs class
     if( !isset($_POST["class"]) ||  $_POST['class'] == ''  )
         $flashMsg->error("Please select a class", "adminAcademic.php?type=$type");
 
+    //needs group
     if( !isset($_POST["group"]) ||  $_POST['group'] == ''  )
         $flashMsg->error("Please select a Group", "adminAcademic.php?type=$type");
 
-
+    //validate file
     $academicFile = VALIDATE::academicFile("sylFile");
     validateFile($academicFile, $flashMsg, $redirectTo);
 
@@ -79,10 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if( empty($academicInfo) )
         saveAcademic($type, $class, $group, $academicFile["ext"], $db,  $flashMsg, $redirectTo);
-    else if( !updateAcademic($academicInfo[0]->id, $academicFile["ext"], $db) )
+    else if( !updateAcademic($academicInfo[0]->id, $type, $academicFile["ext"], $db) )
         $flashMsg->error("Error while processing request update", $redirectTo);
     else
-        $flashMsg->success("$type Successfully Updated", $redirectTo);
+        $flashMsg->success("$typeAlias[$type] Successfully Updated", $redirectTo);
 
     return;
 }
@@ -108,7 +108,8 @@ $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College
 
 ?>
 
-<?php if($type === 'calender'){ ?>
+<?php if($type === 'calender' || $type === 'classRoutine'){ ?>
+
 
     <div class="col-md-6">
         <form method="post" name="addForm"  action="adminAcademic.php?add=<?php echo $type; ?>" enctype="multipart/form-data" >
@@ -118,11 +119,11 @@ $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College
             </div>
 
             <div class="form-group">
-                <label>Select <?php echo $type; ?> File (image or pdf)</label>
+                <label>Select <?php echo $typeAlias[$type]; ?> File (image or pdf)</label>
                 <input type="file" name="sylFile" id="sylFile" />
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-md btn-primary">Add Calender</button>
+                <button type="submit" class="btn btn-md btn-primary">Add <?php echo $typeAlias[$type]; ?></button>
             </div>
         </form>
     </div>
@@ -167,7 +168,7 @@ $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College
         </div>
     <?php }else{ ?>
         <div class="col-md-12">
-            <div class="well text-center">No calender added yet</div>
+            <div class="well text-center">No <?php echo $typeAlias[$type]; ?> added yet</div>
         </div>
     <?php } ?>
 
@@ -202,11 +203,11 @@ $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College
             <?php if(empty($academicInfo)){ ?>
                 <div class="fileSelect">
                     <div class="form-group">
-                        <label>Select <?php echo $type; ?> File (image or pdf)</label>
+                        <label>Select <?php echo $typeAlias[$type]; ?> File (image or pdf)</label>
                         <input type="file" name="sylFile" id="sylFile" />
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-md btn-primary">Add <?php echo $type; ?></button>
+                        <button type="submit" class="btn btn-md btn-primary">Add <?php $typeAlias[$type]; ?></button>
                     </div>
                 </div>
             <?php  } ?>
@@ -216,8 +217,9 @@ $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College
     </div>
 
 
+    <div class="col-md-12" style="margin-top: 20px;">
     <?php if(!empty($academicInfo)){ ?>
-        <div class="col-md-12" style="margin-top: 20px;">
+
             <table class="table">
                 <thead>
                 <tr>
@@ -254,8 +256,15 @@ $classAlias = array("Six","Seven","Eight","Nine", "Ten", "College 1st", "College
                 <?php }  ?>
                 </tbody>
             </table>
+
+    <?php }else{ ?>
+        <div class="well text-center">
+            No <b><?php echo $typeAlias[$type]; ?></b> added yet
+            <?php if (!is_null($class) ){ $idx = (int)$class - 6; echo " of <b>class $classAlias[$idx]</b>"; }?>
+            <?php if (!is_null($group) ) echo " of <b> $group group</b>"; ?>.
         </div>
     <?php } ?>
+    </div>
 <?php } ?>
 
 

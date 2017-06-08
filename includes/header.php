@@ -66,11 +66,11 @@ $active_nav = isset($active_nav) ? $active_nav : "";
                     <ul class="dropdown-menu">
                         <li><a href="academicCalender.php"> Academic Calendar</a></li>
                         <li class="divider"></li>
-                        <li><a href="bookList.php">Book List & Syllabus</a></li>
+                        <li><a href="syllabus.php">Book List & Syllabus</a></li>
                         <li class="divider"></li>
                         <li><a href="classRoutine.php">Class Routine</a></li>
                         <li class="divider"></li>
-                        <li><a href="examRoutine.php">Exam Schedule</a></li>
+                        <li><a href="examSchedule.php">Exam Schedule</a></li>
                         <li class="divider"></li>
                         <li><a href="hscResult.php">Results</a></li> <!----------Already Done----->
                     </ul>
@@ -80,7 +80,7 @@ $active_nav = isset($active_nav) ? $active_nav : "";
                     <a href="student.php">Students</a>
                 </li>
 
-                <li class="dropdown <?php if($active_nav=='academic') echo "active"; ?>">
+                <li class="dropdown <?php if($active_nav=='result') echo "active"; ?>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Result <b class="caret"></b> </a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-header">Public Result</li>
